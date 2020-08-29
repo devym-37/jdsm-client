@@ -72,10 +72,12 @@ class SideBar extends React.Component {
         <div
           style={{
             height: 32,
-            background: "red",
+            background: "#fff",
             margin: 16,
           }}
-        />
+        >
+          로고
+        </div>
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <SubMenu key="sub1" icon={<FileOutlined />} title="레슨">
             {days.map((day, index) => (
