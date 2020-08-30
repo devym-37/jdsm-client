@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -41,19 +42,22 @@ class SideBar extends React.Component {
           로고
         </div>
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+          <Menu.Item key="dashboard" icon={<HomeOutlined />}>
+            <Link to="/dashboard">DashBoard</Link>
+          </Menu.Item>
           <SubMenu key="sub1" icon={<FileOutlined />} title="레슨">
             {days.map((day, index) => (
               <Menu.Item key={index}>{day}</Menu.Item>
             ))}
           </SubMenu>
           <Menu.Item key="레슨" icon={<DesktopOutlined />}>
-            레슨 등록
+            <Link to="/lesson">레슨 등록</Link>
           </Menu.Item>
           <Menu.Item key="회원" icon={<TeamOutlined />}>
-            회원 등록
+            <Link to="/user">회원 등록</Link>
           </Menu.Item>
           <Menu.Item key="코치" icon={<UserOutlined />}>
-            코치 등록
+            <Link to="/coach">코치 등록</Link>
           </Menu.Item>
         </Menu>
       </Sider>
