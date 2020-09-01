@@ -41,7 +41,7 @@ class SideBar extends React.Component {
         >
           로고
         </div>
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+        <Menu theme="dark" mode="inline">
           <Menu.Item key="dashboard" icon={<HomeOutlined />}>
             <Link to="/dashboard">DashBoard</Link>
           </Menu.Item>
