@@ -1,5 +1,6 @@
 import React from "react";
-import { Layout, Breadcrumb } from "antd";
+import { Layout, Menu } from "antd";
+import styled from "styled-components";
 
 const { Header, Content } = Layout;
 
@@ -14,10 +15,20 @@ class Headers extends React.Component {
   };
 
   render() {
+    console.log("this.props :>> ", this.props);
     return (
       <>
-        <Header className="site-layout-background" style={{ padding: 0 }} />
-        <Content style={{ margin: "0 16px" }}>
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          <Menu theme="dark" mode="horizontal">
+            <Menu.Item
+              key="1"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              JD Sports
+            </Menu.Item>
+          </Menu>
+        </Header>
+        {/* <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
@@ -28,7 +39,7 @@ class Headers extends React.Component {
           >
             Bill is a cat.
           </div>
-        </Content>
+        </Content> */}
       </>
     );
   }
