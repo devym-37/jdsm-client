@@ -57,7 +57,7 @@ const Button = styled.button`
 const DashboardPresenter = () => (
   <>
     <Helmet>
-      <title>llooster</title>
+      <title>Dashboard Page</title>
     </Helmet>
 
     <Container>Dashboard Page</Container>

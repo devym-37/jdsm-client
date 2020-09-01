@@ -57,7 +57,7 @@ const Button = styled.button`
 const LessonPresenter = () => (
   <>
     <Helmet>
-      <title>llooster</title>
+      <title>LessonPage</title>
     </Helmet>
 
     <Container>LessonPage</Container>
