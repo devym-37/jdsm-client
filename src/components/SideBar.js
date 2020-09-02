@@ -45,22 +45,37 @@ class SideBar extends React.Component {
           <Menu.Item key="dashboard" icon={<HomeOutlined />}>
             <Link to="/dashboard">DashBoard</Link>
           </Menu.Item>
-          <SubMenu key="sub1" icon={<FileOutlined />} title="레슨">
+          <SubMenu key="lessonDay" icon={<FileOutlined />} title="레슨 일정">
             {days.map((day, index) => (
               <Menu.Item key={index}>
                 <Link to={`/lesson/${day}`}>{day}</Link>
               </Menu.Item>
             ))}
           </SubMenu>
-          <Menu.Item key="레슨" icon={<DesktopOutlined />}>
-            <Link to="/enroll/lesson">레슨 등록</Link>
-          </Menu.Item>
-          <Menu.Item key="회원" icon={<TeamOutlined />}>
-            <Link to="/enroll/user">회원 등록</Link>
-          </Menu.Item>
-          <Menu.Item key="코치" icon={<UserOutlined />}>
-            <Link to="/enroll/coach">코치 등록</Link>
-          </Menu.Item>
+          <SubMenu key="lesson" icon={<DesktopOutlined />} title="레슨">
+            <Menu.Item key="lessonList" icon={<DesktopOutlined />}>
+              <Link to="/lesson/list">레슨 현황</Link>
+            </Menu.Item>
+            <Menu.Item key="enrollLesson" icon={<DesktopOutlined />}>
+              <Link to="/enroll/lesson">레슨 등록</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="user" icon={<TeamOutlined />} title="회원">
+            <Menu.Item key="userList" icon={<TeamOutlined />}>
+              <Link to="/user/list">회원 현황</Link>
+            </Menu.Item>
+            <Menu.Item key="enrollUser" icon={<TeamOutlined />}>
+              <Link to="/enroll/user">회원 등록</Link>
+            </Menu.Item>
+          </SubMenu>
+          <SubMenu key="coach" icon={<UserOutlined />} title="코치">
+            <Menu.Item key="coachList" icon={<UserOutlined />}>
+              <Link to="/coach/list">코치 현황</Link>
+            </Menu.Item>
+            <Menu.Item key="enrollCoach" icon={<UserOutlined />}>
+              <Link to="/enroll/coach">코치 등록</Link>
+            </Menu.Item>
+          </SubMenu>
         </Menu>
       </Sider>
     );
