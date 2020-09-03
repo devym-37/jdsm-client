@@ -50,7 +50,9 @@ const ButtonContainer = styled.div`
   margin-top: 15px;
 `;
 
-const IButton = styled(Button)``;
+const IButton = styled(Button)`
+  border-radius: 0.4rem;
+`;
 
 const UserPresenter = ({
   userForm,
