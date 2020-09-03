@@ -5,6 +5,12 @@ const initialState = {
 
 const lessonReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "ADD_LESSON": {
+      return {
+        ...state,
+        lesson: [...state.lesson, action.lesson],
+      };
+    }
     default: {
       return state;
     }

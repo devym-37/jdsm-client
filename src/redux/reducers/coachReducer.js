@@ -4,10 +4,10 @@ const initialState = {
 
 const coachReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_USER": {
+    case "ADD_COACH": {
       return {
         ...state,
-        coaches: [...state.coaches, action.user],
+        coaches: [...state.coaches, action.coach],
       };
     }
     default: {
