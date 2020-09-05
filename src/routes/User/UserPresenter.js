@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
 
 import { Layout, Breadcrumb, Input, Select, Button } from "antd";
 
@@ -11,9 +10,9 @@ const { Option } = Select;
 const Container = styled.div`
   display: flex;
   align-items: center;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 18px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px;
 `;
 
 const Div = styled.div`
@@ -25,14 +24,10 @@ const Div = styled.div`
 
 const Inputs = styled(Input)`
   width: 300px;
-  height: 40px;
-  padding: 15px 150px 18px 17px;
+  height: 30px;
   line-height: 17px;
   font-size: 14px;
   color: #9b9b9b;
-  border: none;
-  border-radius: 0.4rem;
-  transition: box-shadow 300ms;
 `;
 
 const Selects = styled(Select)`
@@ -50,9 +45,7 @@ const ButtonContainer = styled.div`
   margin-top: 15px;
 `;
 
-const IButton = styled(Button)`
-  border-radius: 0.4rem;
-`;
+const IButton = styled(Button)``;
 
 const UserPresenter = ({
   userForm,
@@ -67,7 +60,7 @@ const UserPresenter = ({
       <title>회원 등록</title>
     </Helmet>
 
-    <Content style={{ margin: "0 16px" }}>
+    <Content style={{ margin: "0 auto" }}>
       <Breadcrumb style={{ margin: "30px 0" }}>
         <Breadcrumb.Item
           style={{
@@ -76,7 +69,7 @@ const UserPresenter = ({
             marginLeft: "30px",
           }}
         >
-          회원 등록
+          [ 회원 등록 ]
         </Breadcrumb.Item>
       </Breadcrumb>
       <Container>
