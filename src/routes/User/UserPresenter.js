@@ -115,8 +115,8 @@ const UserPresenter = ({
             레슨 선택
           </Option>
           {lessons.map((lesson, index) => (
-            <Option value={lesson} key={index}>
-              {lesson}
+            <Option value={lesson.lessonName} key={index}>
+              {lesson.lessonName}
             </Option>
           ))}
         </Selects>
