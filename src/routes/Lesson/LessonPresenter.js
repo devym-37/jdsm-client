@@ -3,64 +3,178 @@ import styled from "styled-components";
 import Helmet from "react-helmet";
 import { Link } from "react-router-dom";
 
+import { Layout, Breadcrumb, Input, Select, Button, TimePicker } from "antd";
+
+const { Content } = Layout;
+const { Option } = Select;
+
 const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #1ea1f7;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px;
 `;
 
 const Div = styled.div`
-  margin-bottom: 10px;
+  justify-content: flex-end;
+  display: flex;
+  margin-right: 30px;
+  width: 100px;
 `;
 
-const Input = styled.input`
-  width: 625px;
-  height: 50px;
-  padding: 15px 150px 18px 17px;
+const Inputs = styled(Input)`
+  width: 300px;
+  height: 30px;
   line-height: 17px;
+  font-size: 14px;
+  color: #9b9b9b;
+`;
+
+const Selects = styled(Select)`
+  width: 300px;
   font-size: 14px;
   color: #9b9b9b;
   border: none;
   border-radius: 0.4rem;
-  transition: box-shadow 300ms;
-  &:focus {
-    outline: none;
-    box-shadow: 0.1rem 0.1rem 1rem #5e35b1;
-  }
 `;
 
-const IButton = styled.img`
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0.1rem 0.1rem 1rem #5e35b1;
-  }
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 500px;
+  justify-content: flex-end;
+  margin-top: 15px;
 `;
 
-const Button = styled.button`
-  position: absolute;
-  height: 50px;
-  margin: 0;
-  margin-left: 10px;
-  padding: 0;
-  border: none;
-  outline: none;
-  border-radius: 5px;
-`;
+const IButton = styled(Button)``;
 
-const LessonPresenter = () => (
+const LessonPresenter = ({
+  lessonInfo,
+  users,
+  coaches,
+  days,
+  handleChange,
+  handleSelect,
+  handleTimeChange,
+  handleSubmit,
+}) => (
   <>
     <Helmet>
-      <title>LessonPage</title>
+      <title>새로운 레슨 등록</title>
     </Helmet>
 
-    <Container>LessonPage</Container>
+    <Content style={{ margin: "0 auto" }}>
+      <Breadcrumb style={{ margin: "30px 0" }}>
+        <Breadcrumb.Item
+          style={{
+            fontSize: "20px",
+            fontWeight: "bold",
+          }}
+        >
+          [ 레슨 등록 ]
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Container>
+        <Div>레슨 이름</Div>
+        <Inputs
+          placeholder="내용을 입력해주세요"
+          name="lessonName"
+          value={lessonInfo.lessonName}
+          onChange={(e) => handleChange(e)}
+        />
+      </Container>
+      <Container>
+        <Div>코치</Div>
+        <Selects
+          mode="multiple"
+          showArrow
+          name="lessonCoach"
+          placeholder="코치 선택"
+          defaultValue={lessonInfo.lessonCoach}
+          onChange={handleSelect.bind(this, "lessonCoach")}
+        >
+          {coaches &&
+            coaches.map((coach, index) => (
+              <Option value={coach.name} key={index}>
+                {coach.name}
+              </Option>
+            ))}
+        </Selects>
+      </Container>
+      <Container>
+        <Div>수강생</Div>
+        <Selects
+          mode="multiple"
+          showArrow
+          name="student"
+          placeholder="수강생 선택"
+          defaultValue={lessonInfo.student}
+          onChange={handleSelect.bind(this, "student")}
+        >
+          {users &&
+            users.map((user, index) => (
+              <Option value={user.name} key={index}>
+                {user.name}
+              </Option>
+            ))}
+        </Selects>
+      </Container>
+      <Container>
+        <Div>학교</Div>
+        <Inputs
+          placeholder="내용을 입력해주세요"
+          name="school"
+          value={lessonInfo.school}
+          onChange={(e) => handleChange(e)}
+        />
+      </Container>
+      <Container>
+        <Div>학년</Div>
+        <Inputs
+          placeholder="내용을 입력해주세요"
+          required={true}
+          name="grade"
+          value={lessonInfo.grade}
+          onChange={(e) => handleChange(e)}
+        />
+      </Container>
+      <Container>
+        <Div>요일</Div>
+        <Selects
+          name="day"
+          placeholder="요일 선택"
+          onChange={handleSelect.bind(this, "day")}
+        >
+          {days &&
+            days.map((day, index) => (
+              <Option value={day} key={index}>
+                {day}
+              </Option>
+            ))}
+        </Selects>
+      </Container>
+      <Container>
+        <Div>시간</Div>
+        <TimePicker
+          minuteStep={30}
+          format={"HH:mm"}
+          onChange={handleTimeChange}
+        />
+      </Container>
+      <Container>
+        <Div>레슨비</Div>
+        <Inputs
+          placeholder="내용을 입력해주세요"
+          name="pay"
+          value={lessonInfo.pay}
+          onChange={(e) => handleChange(e)}
+        />
+      </Container>
+
+      <ButtonContainer>
+        <IButton onClick={handleSubmit}>등록</IButton>
+      </ButtonContainer>
+    </Content>
   </>
 );
 
