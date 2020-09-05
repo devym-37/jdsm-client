@@ -1,5 +1,16 @@
 const initialState = {
-  coaches: [],
+  coaches: [
+    {
+      name: "kim",
+      age: "23",
+      contact: "111-1111-1111",
+    },
+    {
+      name: "lee",
+      age: "26",
+      contact: "222-2222-2222",
+    },
+  ],
 };
 
 const coachReducer = (state = initialState, action) => {
