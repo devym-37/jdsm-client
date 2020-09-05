@@ -30,8 +30,20 @@ class CoachContainer extends React.Component {
 
   handleNotification = () => {
     notification.open({
-      message: "알림",
-      description: "빈칸에 내용을 입력하세요",
+      description: "알림 - 빈칸에 내용을 입력하세요",
+      style: {
+        width: 280,
+        height: 70,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#d2dae2",
+        fontWeight: 600,
+        padding: 0,
+        paddingBottom: 20,
+        paddingRight: 35,
+        color: "#ff3f34",
+      },
     });
   };
   handleSubmit = () => {
