@@ -60,7 +60,7 @@ const CoachPresenter = ({ coachForm, handleChange, handleSubmit }) => (
         <Div>이름</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="name"
+          name="이름"
           value={coachForm.name}
           onChange={(e) => handleChange(e)}
         />
@@ -69,7 +69,7 @@ const CoachPresenter = ({ coachForm, handleChange, handleSubmit }) => (
         <Div>나이</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="age"
+          name="나이"
           value={coachForm.age}
           onChange={(e) => handleChange(e)}
         />
@@ -78,7 +78,7 @@ const CoachPresenter = ({ coachForm, handleChange, handleSubmit }) => (
         <Div>연락처</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="contact"
+          name="연락처"
           value={coachForm.contact}
           onChange={(e) => handleChange(e)}
         />

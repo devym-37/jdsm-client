@@ -14,7 +14,8 @@ import DashboardScreen from "../routes/Dashboard";
 import CoachScreen from "../routes/Coach";
 import LessonScreen from "../routes/Lesson";
 import UserScreen from "../routes/User";
-import TableListScreen from "../routes/TableList";
+import CoachDetailScreen from "../routes/CoachDetail";
+import UserDetailScreen from "../routes/UserDetail";
 import LessonDetailScreen from "../routes/LessonDetail";
 
 export default () => (
@@ -27,10 +28,12 @@ export default () => (
           <Switch>
             <Route path="/" exact component={DashboardScreen} />
             <Route path="/enroll/lesson" component={LessonScreen} />
-            <Route path="/lessons/:day" component={LessonDetailScreen} />
+            {/* <Route path="/lessons/:day" component={LessonDetailScreen} /> */}
             <Route path="/enroll/user" component={UserScreen} />
             <Route path="/enroll/coach" component={CoachScreen} />
-            <Route path="/:page/list" component={TableListScreen} />
+            <Route path="/coach/list" component={CoachDetailScreen} />
+            <Route path="/user/list" component={UserDetailScreen} />
+            <Route path="/lesson/list" component={LessonDetailScreen} />
             <Redirect from="*" to="/" />
           </Switch>
           <Footer />

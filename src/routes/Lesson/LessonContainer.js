@@ -9,14 +9,14 @@ class LessonContainer extends React.Component {
     super(props);
     this.state = {
       lessonInfo: {
-        lessonName: "",
-        lessonCoach: [],
-        student: [],
-        school: "",
-        grade: "",
-        day: "",
-        time: "",
-        pay: "",
+        레슨이름: "",
+        레슨코치: [],
+        수강생: [],
+        학교: "",
+        학년: "",
+        요일: "",
+        시간: "",
+        레슨비: "",
       },
     };
   }

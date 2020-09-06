@@ -9,9 +9,9 @@ class CoachContainer extends React.Component {
     super(props);
     this.state = {
       coachForm: {
-        name: "",
-        age: "",
-        contact: "",
+        이름: "",
+        나이: "",
+        연락처: "",
       },
     };
   }

@@ -9,11 +9,11 @@ class UserContainer extends React.Component {
     super(props);
     this.state = {
       userForm: {
-        name: "",
-        school: "",
-        grade: "",
-        contact: "",
-        lesson: "",
+        이름: "",
+        학교: "",
+        학년: "",
+        연락처: "",
+        레슨: "",
       },
       select: "",
     };

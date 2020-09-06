@@ -76,7 +76,7 @@ const UserPresenter = ({
         <Div>이름</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="name"
+          name="이름"
           value={userForm.name}
           onChange={(e) => handleChange(e)}
         />
@@ -85,7 +85,7 @@ const UserPresenter = ({
         <Div>학교</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="school"
+          name="학교"
           value={userForm.school}
           onChange={(e) => handleChange(e)}
         />
@@ -94,7 +94,7 @@ const UserPresenter = ({
         <Div>학년</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="grade"
+          name="학년"
           value={userForm.grade}
           onChange={(e) => handleChange(e)}
         />
@@ -103,14 +103,14 @@ const UserPresenter = ({
         <Div>연락처</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="contact"
+          name="연락처"
           value={userForm.contact}
           onChange={(e) => handleChange(e)}
         />
       </Container>
       <Container>
         <Div>레슨</Div>
-        <Selects name="lesson" defaultValue={select} onChange={handleSelect}>
+        <Selects name="레슨" defaultValue={select} onChange={handleSelect}>
           <Option value="" selected disabled hidden>
             레슨 선택
           </Option>
