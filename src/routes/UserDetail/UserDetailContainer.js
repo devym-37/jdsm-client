@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import LessonDetailPresenter from "./LessonDetailPresenter";
+import UserDetailPresenter from "./UserDetailPresenter";
 import { addUserProfile } from "../../redux/actions/userActions";
 
 import { notification } from "antd";
-class LessonDetailContainer extends React.Component {
+class UserDetailContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -115,13 +115,15 @@ class LessonDetailContainer extends React.Component {
     console.log("this.props :>> ", this.props);
     console.log("this.state.page :>> ", this.state.page);
     return (
-      <LessonDetailPresenter
+      <UserDetailPresenter
         userForm={userForm}
         handleChange={handleChange}
         handleSelect={handleSelect}
         handleSubmit={handleSubmit}
         page={page}
         lessons={lessons}
+        users={users}
+        coaches={coaches}
       />
     );
   }
@@ -144,4 +146,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LessonDetailContainer);
+)(UserDetailContainer);
