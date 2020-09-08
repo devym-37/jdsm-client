@@ -1,66 +1,133 @@
 import React from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #1ea1f7;
+import {
+  Layout,
+  Breadcrumb,
+  Input,
+  Select,
+  Button,
+  Card,
+  Col,
+  Row,
+} from "antd";
+
+const { Content } = Layout;
+const { Option } = Select;
+
+const Container = styled(Content)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  padding: 30px;
+  margin-bottom: 150px;
+`;
+
+const ICard = styled(Card)`
+  border: 1px solid #f0f0f0;
+
+  box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
+    0 15px 40px rgba(166, 173, 201, 0.2);
 `;
 
 const Div = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 
-const Input = styled.input`
-  width: 625px;
-  height: 50px;
-  padding: 15px 150px 18px 17px;
+const Inputs = styled(Input)`
+  width: 300px;
+  height: 30px;
   line-height: 17px;
+  font-size: 14px;
+  color: #9b9b9b;
+`;
+
+const Selects = styled(Select)`
+  width: 300px;
   font-size: 14px;
   color: #9b9b9b;
   border: none;
   border-radius: 0.4rem;
-  transition: box-shadow 300ms;
-  &:focus {
-    outline: none;
-    box-shadow: 0.1rem 0.1rem 1rem #5e35b1;
-  }
 `;
 
-const IButton = styled.img`
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0.1rem 0.1rem 1rem #5e35b1;
-  }
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 500px;
+  justify-content: flex-end;
+  margin-top: 15px;
 `;
 
-const Button = styled.button`
-  position: absolute;
-  height: 50px;
-  margin: 0;
-  margin-left: 10px;
-  padding: 0;
-  border: none;
-  outline: none;
-  border-radius: 5px;
+const Title = styled.p`
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 600;
 `;
 
-const DashboardPresenter = () => (
+const IButton = styled(Button)``;
+
+const DashboardPresenter = ({ lessons, users, coaches }) => (
   <>
     <Helmet>
-      <title>Dashboard Page</title>
+      <title>JD Sports 현황</title>
     </Helmet>
 
-    <Container>Dashboard Page</Container>
+    <Container>
+      <Breadcrumb style={{ margin: "0 0 30px 0" }}>
+        <Breadcrumb.Item
+          style={{
+            fontSize: "18px",
+            fontWeight: 600,
+            marginLeft: "30px",
+          }}
+        >
+          [ JD Sports 현황 ]
+        </Breadcrumb.Item>
+      </Breadcrumb>
+
+      <Div>
+        <Row gutter={16}>
+          <Col span={6}>
+            <ICard size="small" title="총 수강생 수">
+              <Title> {`${users.length} 명`}</Title>
+            </ICard>
+          </Col>
+          <Col span={6}>
+            <ICard size="small" title="총 레슨 수">
+              <Title>{`${lessons.length}`}</Title>
+            </ICard>
+          </Col>
+          <Col span={6}>
+            <ICard size="small" title="미납한 회원 수">
+              미납 회원수
+            </ICard>
+          </Col>
+          <Col span={6}>
+            <ICard size="small" title="미납된 레슨비">
+              미납 레슨비
+            </ICard>
+          </Col>
+        </Row>
+      </Div>
+      <Div className="site-card-wrapper">
+        <Row gutter={16}>
+          <Col span={24}>
+            <ICard size="small" title="미납 회원 명단">
+              <Title> {`${users.length} 명`}</Title>
+            </ICard>
+          </Col>
+        </Row>
+      </Div>
+      <Div className="site-card-wrapper">
+        <Row gutter={16}>
+          <Col span={24}>
+            <ICard size="small" title="보강 회원 명단">
+              <Title> {`${users.length} 명`}</Title>
+            </ICard>
+          </Col>
+        </Row>
+      </Div>
+    </Container>
   </>
 );
 

@@ -9,22 +9,24 @@ class DashboardContainer extends React.Component {
   }
 
   render() {
-    return <DashboardPresenter />;
+    const { lessons, users, coaches } = this.props;
+
+    return (
+      <DashboardPresenter lessons={lessons} users={users} coaches={coaches} />
+    );
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     player: state.userReducer.playerName,
-//   };
-// };
+const mapStateToProps = (state) => {
+  return {
+    lessons: state.lessonReducer.lesson,
+    users: state.userReducer.users,
+    coaches: state.coachReducer.coaches,
+  };
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     handleReduxPlayer: (payload) => dispatch(playerSearch(payload)),
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
-
-export default DashboardContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
