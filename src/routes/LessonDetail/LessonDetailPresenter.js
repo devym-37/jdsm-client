@@ -72,8 +72,8 @@ const LessonDetailPresenter = ({ lessons }) => (
       <Breadcrumb style={{ margin: "30px 0" }}>
         <Breadcrumb.Item
           style={{
-            fontSize: "20px",
-            fontWeight: "bold",
+            fontSize: "18px",
+            fontWeight: 600,
           }}
         >
           [ 레슨 현황 ]

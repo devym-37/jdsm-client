@@ -63,8 +63,8 @@ const UserDetailPresenter = ({ users }) => (
       <Breadcrumb style={{ margin: "30px 0" }}>
         <Breadcrumb.Item
           style={{
-            fontSize: "20px",
-            fontWeight: "bold",
+            fontSize: "18px",
+            fontWeight: 600,
           }}
         >
           [ 회원 현황 ]

@@ -67,8 +67,8 @@ const LessonPresenter = ({
       <Breadcrumb style={{ margin: "30px 0" }}>
         <Breadcrumb.Item
           style={{
-            fontSize: "20px",
-            fontWeight: "bold",
+            fontSize: "18px",
+            fontWeight: 600,
           }}
         >
           [ 레슨 등록 ]
