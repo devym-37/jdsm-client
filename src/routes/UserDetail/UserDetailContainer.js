@@ -8,43 +8,39 @@ class UserDetailContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      page: "",
       loading: false,
+      userForm: {
+        이름: "",
+        학교: "",
+        학년: "",
+        연락처: "",
+        레슨: "",
+      },
+      modalVisible: false,
+      select: "",
     };
   }
 
   componentDidMount() {
-    const {
-      match: { params },
-    } = this.props;
-    console.log("params >>", params.page);
-    this.setState({
-      page:
-        params.page === "user"
-          ? "회원"
-          : params.page === "lesson"
-          ? "레슨"
-          : params.page === "coach"
-          ? "코치"
-          : "",
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.page !== prevProps.match.params.page) {
+    const { users } = this.props;
+    if (users) {
       this.setState({
-        page:
-          this.props.match.params.page === "user"
-            ? "회원"
-            : this.props.match.params.page === "lesson"
-            ? "레슨"
-            : this.props.match.params.page === "coach"
-            ? "코치"
-            : "",
+        loading: true,
       });
     }
   }
+
+  handleShowModal = () => {
+    this.setState({
+      modalVisible: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
 
   handleChange = (e) => {
     const { userForm } = this.state;
@@ -71,7 +67,7 @@ class UserDetailContainer extends React.Component {
 
   handleNotification = () => {
     notification.open({
-      description: "알림 - 빈칸에 내용을 입력하세요",
+      description: "알림 - 빈칸에 내용을 입력하세요 ??",
       style: {
         width: 280,
         height: 70,
@@ -92,38 +88,49 @@ class UserDetailContainer extends React.Component {
     const { handleNotification } = this;
     const { handleAddUser, history } = this.props;
 
-    let submit = false;
+    let count = 0;
 
     for (const key in userForm) {
       if (userForm[key] === "" && key !== "lesson") {
         handleNotification();
         break;
       } else {
-        submit = true;
+        count = count + 1;
       }
     }
-    if (submit) {
+    if (count >= 4) {
       handleAddUser(userForm);
+      this.setState({
+        modalVisible: false,
+      });
       history.push("/");
     }
   };
 
   render() {
-    const { userForm, page } = this.state;
-    const { lessons, users, coaches } = this.props;
-    const { handleChange, handleSelect, handleSubmit } = this;
-    console.log("this.props :>> ", this.props);
-    console.log("this.state.page :>> ", this.state.page);
+    const { userForm, loading, select, modalVisible } = this.state;
+    const { lessons, users } = this.props;
+    const {
+      handleChange,
+      handleSelect,
+      handleSubmit,
+      handleShowModal,
+      handleCancel,
+    } = this;
+
     return (
       <UserDetailPresenter
         userForm={userForm}
+        lessons={lessons}
+        users={users}
+        loading={loading}
+        select={select}
+        modalVisible={modalVisible}
         handleChange={handleChange}
         handleSelect={handleSelect}
         handleSubmit={handleSubmit}
-        page={page}
-        lessons={lessons}
-        users={users}
-        coaches={coaches}
+        handleShowModal={handleShowModal}
+        handleCancel={handleCancel}
       />
     );
   }
@@ -131,9 +138,8 @@ class UserDetailContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    lessons: state.lessonReducer.lesson,
     users: state.userReducer.users,
-    coaches: state.coachReducer.coaches,
+    lessons: state.lessonReducer.lesson,
   };
 };
 

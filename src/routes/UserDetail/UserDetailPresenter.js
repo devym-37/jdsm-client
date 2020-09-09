@@ -3,8 +3,19 @@ import styled from "styled-components";
 import Helmet from "react-helmet";
 import Loader from "../../components/Loader";
 // import Table from "../../components/Table";
+import MemberForm from "../../components/MemberForm";
 
-import { Layout, Breadcrumb, Input, Select, Button, Table, Space } from "antd";
+import {
+  Layout,
+  Breadcrumb,
+  Input,
+  Select,
+  Button,
+  Table,
+  Space,
+  Empty,
+  Modal,
+} from "antd";
 
 const { Column } = Table;
 const { Content } = Layout;
@@ -47,20 +58,31 @@ const Selects = styled(Select)`
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 500px;
   justify-content: flex-end;
-  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 const IButton = styled(Button)``;
 
-const UserDetailPresenter = ({ users }) => (
+const UserDetailPresenter = ({
+  users,
+  lessons,
+  userForm,
+  loading,
+  select,
+  modalVisible,
+  handleChange,
+  handleSubmit,
+  handleSelect,
+  handleShowModal,
+  handleCancel,
+}) => (
   <>
     <Helmet>
       <title>수강생 현황</title>
     </Helmet>
     <Content style={{ margin: "0 auto", width: 700 }}>
-      <Breadcrumb style={{ margin: "30px 0" }}>
+      <Breadcrumb style={{ margin: "30px 0 15px 0" }}>
         <Breadcrumb.Item
           style={{
             fontSize: "18px",
@@ -70,10 +92,30 @@ const UserDetailPresenter = ({ users }) => (
           [ 회원 현황 ]
         </Breadcrumb.Item>
       </Breadcrumb>
-
-      {users === undefined ? (
+      <ButtonContainer>
+        <Button type="primary" onClick={handleShowModal}>
+          회원 등록
+        </Button>
+      </ButtonContainer>
+      <Modal
+        visible={modalVisible}
+        cancelText="취소"
+        okText="등록"
+        onOk={handleSubmit}
+        onCancel={handleCancel}
+      >
+        <MemberForm
+          userForm={userForm}
+          handleChange={handleChange}
+          handleSelect={handleSelect}
+          handleSubmit={handleSubmit}
+          lessons={lessons}
+          select={select}
+        />
+      </Modal>
+      {!loading ? (
         <Loader />
-      ) : (
+      ) : users.length !== 0 ? (
         <Table
           dataSource={users}
           style={{ fontWeight: 600 }}
@@ -83,18 +125,9 @@ const UserDetailPresenter = ({ users }) => (
           <Column title="학교" dataIndex="학교" key="학교" />
           <Column title="학년" dataIndex="학년" key="학년" />
           <Column title="연락처" dataIndex="연락처" key="연락처" />
-          <Column
-            title="수정"
-            key="수정"
-            render={(text, record) => (
-              <Space size="middle">
-                {console.log("text", text)}
-                <a style={{ color: "#70a1ff" }}>수정</a>
-                <a style={{ color: "#ff6b81" }}>삭제</a>
-              </Space>
-            )}
-          />
         </Table>
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
     </Content>
   </>
