@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import UserDetailPresenter from "./UserDetailPresenter";
 import { addUserProfile } from "../../redux/actions/userActions";
 
-import { notification } from "antd";
+import { message } from "antd";
+
 class UserDetailContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +19,7 @@ class UserDetailContainer extends React.Component {
       },
       modalVisible: false,
       select: "",
+      checkUser: [],
     };
   }
 
@@ -65,50 +67,39 @@ class UserDetailContainer extends React.Component {
     });
   };
 
-  handleNotification = () => {
-    notification.open({
-      description: "알림 - 빈칸에 내용을 입력하세요 ??",
-      style: {
-        width: 280,
-        height: 70,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#d2dae2",
-        fontWeight: 600,
-        padding: 0,
-        paddingBottom: 20,
-        paddingRight: 35,
-        color: "#ff3f34",
-      },
-    });
-  };
   handleSubmit = () => {
     const { userForm } = this.state;
-    const { handleNotification } = this;
-    const { handleAddUser, history } = this.props;
+    const { handleAddUser, users } = this.props;
 
     let count = 0;
+    const keyValue = users.length + 1;
 
     for (const key in userForm) {
-      if (userForm[key] === "" && key !== "lesson") {
-        handleNotification();
+      if (userForm[key] === "" && key !== "레슨") {
+        message.error("회원 정보를 입력해주세요");
         break;
       } else {
         count = count + 1;
       }
     }
+
     if (count >= 4) {
-      handleAddUser(userForm);
+      handleAddUser({ key: `${keyValue}`, ...userForm });
+      message.success("회원 등록 완료");
       this.setState({
         modalVisible: false,
       });
-      history.push("/");
     }
   };
 
+  handleCheckChange = (selectedRows) => {
+    this.setState({
+      checkUser: [...selectedRows],
+    });
+  };
+
   render() {
-    const { userForm, loading, select, modalVisible } = this.state;
+    const { userForm, loading, select, modalVisible, checkUser } = this.state;
     const { lessons, users } = this.props;
     const {
       handleChange,
@@ -116,8 +107,9 @@ class UserDetailContainer extends React.Component {
       handleSubmit,
       handleShowModal,
       handleCancel,
+      handleCheckChange,
     } = this;
-
+    console.log("checkUser :>> ", checkUser);
     return (
       <UserDetailPresenter
         userForm={userForm}
@@ -125,7 +117,9 @@ class UserDetailContainer extends React.Component {
         users={users}
         loading={loading}
         select={select}
+        checkUser={checkUser}
         modalVisible={modalVisible}
+        handleCheckChange={handleCheckChange}
         handleChange={handleChange}
         handleSelect={handleSelect}
         handleSubmit={handleSubmit}

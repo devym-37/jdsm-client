@@ -70,6 +70,8 @@ const UserDetailPresenter = ({
   userForm,
   loading,
   select,
+  checkUser,
+  handleCheckChange,
   modalVisible,
   handleChange,
   handleSubmit,
@@ -92,11 +94,41 @@ const UserDetailPresenter = ({
           [ 회원 현황 ]
         </Breadcrumb.Item>
       </Breadcrumb>
-      <ButtonContainer>
-        <Button type="primary" onClick={handleShowModal}>
-          회원 등록
-        </Button>
-      </ButtonContainer>
+      {checkUser.length === 0 ? (
+        <ButtonContainer>
+          <Button type="primary" onClick={handleShowModal}>
+            회원 등록
+          </Button>
+        </ButtonContainer>
+      ) : checkUser.length === 1 ? (
+        <ButtonContainer>
+          <Button
+            type="primary"
+            onClick={handleShowModal}
+            style={{ marginRight: 10 }}
+          >
+            회원 수정
+          </Button>
+          <Button
+            danger
+            onClick={handleShowModal}
+            style={{ backgroundColor: "#f5222d", color: "#fff" }}
+          >
+            회원 삭제
+          </Button>
+        </ButtonContainer>
+      ) : (
+        <ButtonContainer>
+          <Button
+            danger
+            onClick={handleShowModal}
+            style={{ backgroundColor: "#f5222d", color: "#fff" }}
+          >
+            회원 삭제
+          </Button>
+        </ButtonContainer>
+      )}
+
       <Modal
         visible={modalVisible}
         cancelText="취소"
@@ -117,6 +149,12 @@ const UserDetailPresenter = ({
         <Loader />
       ) : users.length !== 0 ? (
         <Table
+          rowSelection={{
+            type: "checkbox",
+            onChange: (selectedRowKeys, selectedRows) => {
+              handleCheckChange(selectedRows);
+            },
+          }}
           dataSource={users}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
