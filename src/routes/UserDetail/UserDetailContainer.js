@@ -85,7 +85,7 @@ class UserDetailContainer extends React.Component {
 
     if (count >= 4) {
       handleAddUser({ key: `${keyValue}`, ...userForm });
-      message.success("회원 등록 완료");
+      message.success("회원 등록");
       this.setState({
         modalVisible: false,
       });
@@ -109,7 +109,7 @@ class UserDetailContainer extends React.Component {
       handleCancel,
       handleCheckChange,
     } = this;
-    console.log("checkUser :>> ", checkUser);
+
     return (
       <UserDetailPresenter
         userForm={userForm}

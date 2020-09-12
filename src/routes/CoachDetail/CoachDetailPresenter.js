@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Helmet from "react-helmet";
 import Loader from "../../components/Loader";
 // import Table from "../../components/Table";
+import CoachForm from "../../components/CoachForm";
 
 import {
   Layout,
@@ -13,6 +14,8 @@ import {
   Table,
   Tag,
   Space,
+  Empty,
+  Modal,
 } from "antd";
 
 const { Column } = Table;
@@ -20,52 +23,25 @@ const { Column } = Table;
 const { Content } = Layout;
 const { Option } = Select;
 
-const Container = styled(Content)`
-  display: flex;
-  align-items: center;
-  width: "100%";
-  font-size: 16px;
-  font-weight: bold;
-  padding: 18px;
-`;
-
-const Div = styled.div`
-  justify-content: flex-end;
-  display: flex;
-  margin-right: 30px;
-  width: 100px;
-`;
-
-const Inputs = styled(Input)`
-  width: 300px;
-  height: 40px;
-  padding: 15px 150px 18px 17px;
-  line-height: 17px;
-  font-size: 14px;
-  color: #9b9b9b;
-  border: none;
-  border-radius: 0.4rem;
-  transition: box-shadow 300ms;
-`;
-
-const Selects = styled(Select)`
-  width: 300px;
-  font-size: 14px;
-  color: #9b9b9b;
-  border: none;
-  border-radius: 0.4rem;
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
-  width: 500px;
   justify-content: flex-end;
-  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
-const IButton = styled(Button)``;
-
-const CoachDetailPresenter = ({ page, coaches }) => (
+const CoachDetailPresenter = ({
+  coachForm,
+  coaches,
+  loading,
+  select,
+  checkCoach,
+  modalVisible,
+  handleCheckChange,
+  handleChange,
+  handleSubmit,
+  handleShowModal,
+  handleCancel,
+}) => (
   <>
     <Helmet>
       <title>코치 현황</title>
@@ -83,10 +59,65 @@ const CoachDetailPresenter = ({ page, coaches }) => (
         </Breadcrumb.Item>
       </Breadcrumb>
 
-      {coaches === undefined ? (
-        <Loader />
+      {checkCoach.length === 0 ? (
+        <ButtonContainer>
+          <Button type="primary" onClick={handleShowModal}>
+            코치 등록
+          </Button>
+        </ButtonContainer>
+      ) : checkCoach.length === 1 ? (
+        <ButtonContainer>
+          <Button
+            type="primary"
+            onClick={handleShowModal}
+            style={{ marginRight: 10 }}
+          >
+            코치 수정
+          </Button>
+          <Button
+            danger
+            onClick={handleShowModal}
+            style={{ backgroundColor: "#f5222d", color: "#fff" }}
+          >
+            코치 삭제
+          </Button>
+        </ButtonContainer>
       ) : (
+        <ButtonContainer>
+          <Button
+            danger
+            onClick={handleShowModal}
+            style={{ backgroundColor: "#f5222d", color: "#fff" }}
+          >
+            코치 삭제
+          </Button>
+        </ButtonContainer>
+      )}
+
+      <Modal
+        visible={modalVisible}
+        cancelText="취소"
+        okText="등록"
+        onOk={handleSubmit}
+        onCancel={handleCancel}
+      >
+        <CoachForm
+          coachForm={coachForm}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+        />
+      </Modal>
+
+      {!loading ? (
+        <Loader />
+      ) : coaches.length !== 0 ? (
         <Table
+          rowSelection={{
+            type: "checkbox",
+            onChange: (selectedRowKeys, selectedRows) => {
+              handleCheckChange(selectedRows);
+            },
+          }}
           dataSource={coaches}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
@@ -94,18 +125,9 @@ const CoachDetailPresenter = ({ page, coaches }) => (
           <Column title="이름" dataIndex="이름" key="이름" />
           <Column title="나이" dataIndex="나이" key="나이" />
           <Column title="연락처" dataIndex="연락처" key="연락처" />
-          <Column
-            title="수정"
-            key="수정"
-            render={(text, record) => (
-              <Space size="middle">
-                {console.log("text", text)}
-                <a style={{ color: "#70a1ff" }}>수정</a>
-                <a style={{ color: "#ff6b81" }}>삭제</a>
-              </Space>
-            )}
-          />
         </Table>
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
     </Content>
   </>

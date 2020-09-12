@@ -1,126 +1,113 @@
 import React from "react";
 import { connect } from "react-redux";
 import CoachDetailPresenter from "./CoachDetailPresenter";
-import { addUserProfile } from "../../redux/actions/userActions";
+import { addCoachProfile } from "../../redux/actions/coachActions";
 
-import { notification } from "antd";
+import { message } from "antd";
 class CoachDetailContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      page: "",
       loading: false,
+      coachForm: {
+        이름: "",
+        나이: "",
+        연락처: "",
+      },
+      modalVisible: false,
+      select: "",
+      checkCoach: [],
     };
   }
 
   componentDidMount() {
-    const {
-      match: { params },
-    } = this.props;
-    console.log("params >>", params.page);
-    this.setState({
-      page:
-        params.page === "user"
-          ? "회원"
-          : params.page === "lesson"
-          ? "레슨"
-          : params.page === "coach"
-          ? "코치"
-          : "",
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.page !== prevProps.match.params.page) {
+    const { coaches } = this.props;
+    if (coaches) {
       this.setState({
-        page:
-          this.props.match.params.page === "user"
-            ? "회원"
-            : this.props.match.params.page === "lesson"
-            ? "레슨"
-            : this.props.match.params.page === "coach"
-            ? "코치"
-            : "",
+        loading: true,
       });
     }
   }
 
+  handleShowModal = () => {
+    this.setState({
+      modalVisible: true,
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      modalVisible: false,
+    });
+  };
+
   handleChange = (e) => {
-    const { userForm } = this.state;
+    const { coachForm } = this.state;
     const value = e.target.value;
     const inputName = e.target.name;
     this.setState({
-      userForm: {
-        ...userForm,
+      coachForm: {
+        ...coachForm,
         [inputName]: value,
       },
     });
   };
 
-  handleSelect = (value) => {
-    const { userForm } = this.state;
-    this.setState({
-      userForm: {
-        ...userForm,
-        lesson: value,
-      },
-      select: value,
-    });
-  };
-
-  handleNotification = () => {
-    notification.open({
-      description: "알림 - 빈칸에 내용을 입력하세요",
-      style: {
-        width: 280,
-        height: 70,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#d2dae2",
-        fontWeight: 600,
-        padding: 0,
-        paddingBottom: 20,
-        paddingRight: 35,
-        color: "#ff3f34",
-      },
-    });
-  };
   handleSubmit = () => {
-    const { userForm } = this.state;
-    const { handleNotification } = this;
-    const { handleAddUser, history } = this.props;
+    const { coachForm } = this.state;
+    const { handleAddCoach, coaches } = this.props;
 
-    let submit = false;
+    let count = 0;
+    const keyValue = coaches.length + 1;
 
-    for (const key in userForm) {
-      if (userForm[key] === "" && key !== "lesson") {
-        handleNotification();
+    for (const key in coachForm) {
+      if (coachForm[key] === "") {
+        message.error("코치 정보를 입력해주세요");
         break;
       } else {
-        submit = true;
+        count = count + 1;
       }
     }
-    if (submit) {
-      handleAddUser(userForm);
-      history.push("/");
+
+    if (count >= 3) {
+      handleAddCoach({ key: `${keyValue}`, ...coachForm });
+      message.success("코치 등록");
+      this.setState({
+        modalVisible: false,
+      });
     }
+  };
+
+  handleCheckChange = (selectedRows) => {
+    this.setState({
+      checkCoach: [...selectedRows],
+    });
   };
 
   render() {
-    const { userForm, page } = this.state;
-    const { lessons, users, coaches } = this.props;
-    const { handleChange, handleSelect, handleSubmit } = this;
+    const { coachForm, loading, select, modalVisible, checkCoach } = this.state;
+    const { coaches } = this.props;
+    const {
+      handleChange,
+      handleSubmit,
+      handleShowModal,
+      handleCancel,
+      handleCheckChange,
+    } = this;
 
     return (
       <CoachDetailPresenter
-        userForm={userForm}
-        handleChange={handleChange}
-        handleSelect={handleSelect}
-        handleSubmit={handleSubmit}
-        page={page}
+        coachForm={coachForm}
         coaches={coaches}
+        loading={loading}
+        select={select}
+        checkCoach={checkCoach}
+        modalVisible={modalVisible}
+        handleCheckChange={handleCheckChange}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        handleShowModal={handleShowModal}
+        handleCancel={handleCancel}
       />
     );
   }
@@ -128,15 +115,13 @@ class CoachDetailContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    lessons: state.lessonReducer.lesson,
-    users: state.userReducer.users,
     coaches: state.coachReducer.coaches,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddUser: (payload) => dispatch(addUserProfile(payload)),
+    handleAddCoach: (payload) => dispatch(addCoachProfile(payload)),
   };
 };
 
