@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Helmet from "react-helmet";
 import Loader from "../../components/Loader";
 // import Table from "../../components/Table";
+import LessonForm from "../../components/LessonForm";
 
 import {
   Layout,
@@ -13,6 +14,8 @@ import {
   Table,
   Tag,
   Space,
+  Empty,
+  Modal,
 } from "antd";
 
 const { Column } = Table;
@@ -56,14 +59,30 @@ const Selects = styled(Select)`
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 500px;
   justify-content: flex-end;
-  margin-top: 15px;
+  margin-bottom: 15px;
 `;
 
 const IButton = styled(Button)``;
 
-const LessonDetailPresenter = ({ lessons }) => (
+const LessonDetailPresenter = ({
+  lessonInfo,
+  lessons,
+  users,
+  coaches,
+  days,
+  loading,
+  select,
+  checkLesson,
+  modalVisible,
+  handleChange,
+  handleSelect,
+  handleSubmit,
+  handleTimeChange,
+  handleShowModal,
+  handleCancel,
+  handleCheckChange,
+}) => (
   <>
     <Helmet>
       <title>레슨 현황</title>
@@ -80,10 +99,69 @@ const LessonDetailPresenter = ({ lessons }) => (
         </Breadcrumb.Item>
       </Breadcrumb>
 
-      {lessons === undefined ? (
-        <Loader />
+      {checkLesson.length === 0 ? (
+        <ButtonContainer>
+          <Button type="primary" onClick={handleShowModal}>
+            레슨 등록
+          </Button>
+        </ButtonContainer>
+      ) : checkLesson.length === 1 ? (
+        <ButtonContainer>
+          <Button
+            type="primary"
+            onClick={handleShowModal}
+            style={{ marginRight: 10 }}
+          >
+            레슨 수정
+          </Button>
+          <Button
+            danger
+            onClick={handleShowModal}
+            style={{ backgroundColor: "#f5222d", color: "#fff" }}
+          >
+            레슨 삭제
+          </Button>
+        </ButtonContainer>
       ) : (
+        <ButtonContainer>
+          <Button
+            danger
+            onClick={handleShowModal}
+            style={{ backgroundColor: "#f5222d", color: "#fff" }}
+          >
+            레슨 삭제
+          </Button>
+        </ButtonContainer>
+      )}
+
+      <Modal
+        visible={modalVisible}
+        cancelText="취소"
+        okText="등록"
+        onOk={handleSubmit}
+        onCancel={handleCancel}
+      >
+        <LessonForm
+          lessonInfo={lessonInfo}
+          users={users}
+          coaches={coaches}
+          days={days}
+          handleChange={handleChange}
+          handleSelect={handleSelect}
+          handleTimeChange={handleTimeChange}
+        />
+      </Modal>
+
+      {!loading ? (
+        <Loader />
+      ) : lessons.length !== 0 ? (
         <Table
+          rowSelection={{
+            type: "checkbox",
+            onChange: (selectedRowKeys, selectedRows) => {
+              handleCheckChange(selectedRows);
+            },
+          }}
           dataSource={lessons}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
@@ -99,11 +177,6 @@ const LessonDetailPresenter = ({ lessons }) => (
                 <Tag color="#70a1ff" key={"수강생"}>
                   {student.length} 명
                 </Tag>
-                {/* {student.map((tag) => (
-                  <Tag color="blue" key={tag}>
-                    {tag}
-                  </Tag>
-                ))} */}
               </>
             )}
           />
@@ -112,18 +185,9 @@ const LessonDetailPresenter = ({ lessons }) => (
           <Column title="요일" dataIndex="요일" key="요일" />
           <Column title="시간" dataIndex="시간" key="시간" />
           <Column title="레슨비" dataIndex="레슨비" key="레슨비" />
-          <Column
-            title="수정"
-            key="수정"
-            render={(text, record) => (
-              <Space size="middle">
-                {console.log("text", text)}
-                <a style={{ color: "#70a1ff" }}>수정</a>
-                <a style={{ color: "#ff6b81" }}>삭제</a>
-              </Space>
-            )}
-          />
         </Table>
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
     </Content>
   </>
