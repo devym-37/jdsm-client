@@ -32,6 +32,7 @@ const UserDetailPresenter = ({
   loading,
   select,
   checkUser,
+  update,
   handleCheckChange,
   modalVisible,
   handleChange,
@@ -39,6 +40,8 @@ const UserDetailPresenter = ({
   handleSelect,
   handleShowModal,
   handleCancel,
+  handleDeleteUser,
+  handleUpdateUser,
 }) => (
   <>
     <Helmet>
@@ -57,7 +60,11 @@ const UserDetailPresenter = ({
       </Breadcrumb>
       {checkUser.length === 0 ? (
         <ButtonContainer>
-          <Button type="primary" onClick={handleShowModal}>
+          <Button
+            type="primary"
+            name="register"
+            onClick={(e) => handleShowModal(e)}
+          >
             회원 등록
           </Button>
         </ButtonContainer>
@@ -65,14 +72,16 @@ const UserDetailPresenter = ({
         <ButtonContainer>
           <Button
             type="primary"
-            onClick={handleShowModal}
+            name="update"
+            onClick={(e) => handleShowModal(e)}
             style={{ marginRight: 10 }}
           >
             회원 수정
           </Button>
           <Button
             danger
-            onClick={handleShowModal}
+            name="delete"
+            onClick={(e) => handleDeleteUser(e)}
             style={{ backgroundColor: "#f5222d", color: "#fff" }}
           >
             회원 삭제
@@ -82,7 +91,8 @@ const UserDetailPresenter = ({
         <ButtonContainer>
           <Button
             danger
-            onClick={handleShowModal}
+            name="delete"
+            onClick={(e) => handleDeleteUser(e)}
             style={{ backgroundColor: "#f5222d", color: "#fff" }}
           >
             회원 삭제
@@ -93,18 +103,30 @@ const UserDetailPresenter = ({
       <Modal
         visible={modalVisible}
         cancelText="취소"
-        okText="등록"
-        onOk={handleSubmit}
+        okText={update ? "수정" : "등록"}
+        onOk={update ? handleUpdateUser : handleSubmit}
         onCancel={handleCancel}
       >
-        <MemberForm
-          userForm={userForm}
-          handleChange={handleChange}
-          handleSelect={handleSelect}
-          handleSubmit={handleSubmit}
-          lessons={lessons}
-          select={select}
-        />
+        {update ? (
+          <MemberForm
+            update={update}
+            userForm={userForm}
+            handleChange={handleChange}
+            handleSelect={handleSelect}
+            handleSubmit={handleSubmit}
+            lessons={lessons}
+            select={select}
+          />
+        ) : (
+          <MemberForm
+            userForm={userForm}
+            handleChange={handleChange}
+            handleSelect={handleSelect}
+            handleSubmit={handleSubmit}
+            lessons={lessons}
+            select={select}
+          />
+        )}
       </Modal>
       {!loading ? (
         <Loader />
@@ -112,8 +134,9 @@ const UserDetailPresenter = ({
         <Table
           rowSelection={{
             type: "checkbox",
+            // selectedRowKeys: selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
-              handleCheckChange(selectedRows);
+              handleCheckChange(selectedRowKeys, selectedRows);
             },
           }}
           dataSource={users}
