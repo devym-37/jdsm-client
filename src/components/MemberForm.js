@@ -63,7 +63,7 @@ const MemberForm = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           name="이름"
-          value={userForm.name}
+          value={userForm["이름"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -72,7 +72,7 @@ const MemberForm = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           name="학교"
-          value={userForm.school}
+          value={userForm["학교"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -81,7 +81,7 @@ const MemberForm = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           name="학년"
-          value={userForm.grade}
+          value={userForm["학년"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -90,7 +90,7 @@ const MemberForm = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           name="연락처"
-          value={userForm.contact}
+          value={userForm["연락처"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
