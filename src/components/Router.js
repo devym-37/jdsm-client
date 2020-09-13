@@ -11,8 +11,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 import DashboardScreen from "../routes/Dashboard";
-import CoachScreen from "../routes/Coach";
-import LessonScreen from "../routes/Lesson";
 
 import CoachDetailScreen from "../routes/CoachDetail";
 import UserDetailScreen from "../routes/UserDetail";
@@ -27,9 +25,8 @@ export default () => (
           <Header />
           <Switch>
             <Route path="/" exact component={DashboardScreen} />
-            <Route path="/enroll/lesson" component={LessonScreen} />
             {/* <Route path="/lessons/:day" component={LessonDetailScreen} /> */}
-            <Route path="/enroll/coach" component={CoachScreen} />
+
             <Route path="/coaches" component={CoachDetailScreen} />
             <Route path="/users" component={UserDetailScreen} />
             <Route path="/lessons" component={LessonDetailScreen} />

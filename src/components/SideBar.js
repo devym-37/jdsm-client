@@ -61,23 +61,6 @@ class SideBar extends React.Component {
           <Menu.Item key="coachList" icon={<UserOutlined />}>
             <Link to="/coaches">코치</Link>
           </Menu.Item>
-          <SubMenu key="lesson" icon={<DesktopOutlined />} title="레슨">
-            <Menu.Item key="lessonList" icon={<DesktopOutlined />}>
-              <Link to="/lesson/list">레슨 현황</Link>
-            </Menu.Item>
-            <Menu.Item key="enrollLesson" icon={<DesktopOutlined />}>
-              <Link to="/enroll/lesson">레슨 등록</Link>
-            </Menu.Item>
-          </SubMenu>
-
-          <SubMenu key="coach" icon={<UserOutlined />} title="코치">
-            <Menu.Item key="coachList" icon={<UserOutlined />}>
-              <Link to="/coach/list">코치 현황</Link>
-            </Menu.Item>
-            <Menu.Item key="enrollCoach" icon={<UserOutlined />}>
-              <Link to="/enroll/coach">코치 등록</Link>
-            </Menu.Item>
-          </SubMenu>
         </Menu>
       </Sider>
     );
