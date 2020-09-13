@@ -73,6 +73,7 @@ const LessonDetailPresenter = ({
   days,
   loading,
   select,
+  update,
   checkLesson,
   modalVisible,
   handleChange,
@@ -82,6 +83,9 @@ const LessonDetailPresenter = ({
   handleShowModal,
   handleCancel,
   handleCheckChange,
+  handleDeleteLesson,
+  handleUpdateLesson,
+  selectedRowKeys,
 }) => (
   <>
     <Helmet>
@@ -116,7 +120,7 @@ const LessonDetailPresenter = ({
           </Button>
           <Button
             danger
-            onClick={handleShowModal}
+            onClick={(e) => handleDeleteLesson(e)}
             style={{ backgroundColor: "#f5222d", color: "#fff" }}
           >
             레슨 삭제
@@ -126,7 +130,7 @@ const LessonDetailPresenter = ({
         <ButtonContainer>
           <Button
             danger
-            onClick={handleShowModal}
+            onClick={(e) => handleDeleteLesson(e)}
             style={{ backgroundColor: "#f5222d", color: "#fff" }}
           >
             레슨 삭제
@@ -137,19 +141,31 @@ const LessonDetailPresenter = ({
       <Modal
         visible={modalVisible}
         cancelText="취소"
-        okText="등록"
-        onOk={handleSubmit}
+        okText={update ? "수정" : "등록"}
+        onOk={update ? handleUpdateLesson : handleSubmit}
         onCancel={handleCancel}
       >
-        <LessonForm
-          lessonInfo={lessonInfo}
-          users={users}
-          coaches={coaches}
-          days={days}
-          handleChange={handleChange}
-          handleSelect={handleSelect}
-          handleTimeChange={handleTimeChange}
-        />
+        {update ? (
+          <LessonForm
+            lessonInfo={lessonInfo}
+            users={users}
+            coaches={coaches}
+            days={days}
+            handleChange={handleChange}
+            handleSelect={handleSelect}
+            handleTimeChange={handleTimeChange}
+          />
+        ) : (
+          <LessonForm
+            lessonInfo={lessonInfo}
+            users={users}
+            coaches={coaches}
+            days={days}
+            handleChange={handleChange}
+            handleSelect={handleSelect}
+            handleTimeChange={handleTimeChange}
+          />
+        )}
       </Modal>
 
       {!loading ? (
@@ -158,33 +174,34 @@ const LessonDetailPresenter = ({
         <Table
           rowSelection={{
             type: "checkbox",
+            selectedRowKeys: selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
-              handleCheckChange(selectedRows);
+              handleCheckChange(selectedRowKeys, selectedRows);
             },
           }}
           dataSource={lessons}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
         >
-          <Column title="레슨이름" dataIndex="레슨이름" key="레슨이름" />
-          <Column title="레슨코치" dataIndex="레슨코치" key="레슨코치" />
+          <Column title="레슨이름" dataIndex="lessonName" key="lessonName" />
+          <Column title="레슨코치" dataIndex="lessonCoach" key="lessonCoach" />
           <Column
             title="수강생"
-            dataIndex="수강생"
-            key="수강생"
+            dataIndex="student"
+            key="student"
             render={(student) => (
               <>
-                <Tag color="#70a1ff" key={"수강생"}>
+                <Tag color="#70a1ff" key={"student"}>
                   {student.length} 명
                 </Tag>
               </>
             )}
           />
-          <Column title="학교" dataIndex="학교" key="학교" />
-          <Column title="학년" dataIndex="학년" key="학년" />
-          <Column title="요일" dataIndex="요일" key="요일" />
-          <Column title="시간" dataIndex="시간" key="시간" />
-          <Column title="레슨비" dataIndex="레슨비" key="레슨비" />
+          <Column title="학교" dataIndex="school" key="school" />
+          <Column title="학년" dataIndex="grade" key="grage" />
+          <Column title="요일" dataIndex="day" key="day" />
+          <Column title="시간" dataIndex="time" key="time" />
+          <Column title="레슨비" dataIndex="pay" key="pay" />
         </Table>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

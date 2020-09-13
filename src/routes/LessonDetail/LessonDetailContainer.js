@@ -1,7 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import LessonDetailPresenter from "./LessonDetailPresenter";
-import { addLessonInfo } from "../../redux/actions/lessonActions";
+import {
+  addLessonInfo,
+  deleteLessonInfo,
+  updateLessonInfo,
+} from "../../redux/actions/lessonActions";
 
 import { message } from "antd";
 class LessonDetailContainer extends React.Component {
@@ -10,18 +14,20 @@ class LessonDetailContainer extends React.Component {
     this.state = {
       loading: false,
       lessonInfo: {
-        레슨이름: "",
-        레슨코치: [],
-        수강생: [],
-        학교: "",
-        학년: "",
-        요일: "",
-        시간: "",
-        레슨비: "",
+        lessonName: "",
+        lessonCoach: [],
+        student: [],
+        school: "",
+        grade: "",
+        day: "",
+        time: "",
+        pay: "",
       },
       modalVisible: false,
       select: "",
       checkLesson: [],
+      update: false,
+      selectedRowKeys: [],
     };
   }
 
@@ -50,7 +56,7 @@ class LessonDetailContainer extends React.Component {
     const { lessonInfo } = this.state;
     const value = e.target.value;
     const inputName = e.target.name;
-    if (inputName === "레슨비") {
+    if (inputName === "pay") {
       let lessonValue = value.replace(/\D/g, "");
       this.setState({
         lessonInfo: {
@@ -75,7 +81,7 @@ class LessonDetailContainer extends React.Component {
     this.setState({
       lessonInfo: {
         ...lessonInfo,
-        ["시간"]: timeString,
+        ["time"]: timeString,
       },
     });
   };
@@ -96,10 +102,10 @@ class LessonDetailContainer extends React.Component {
     const { handleAddLessonInfo, lessons } = this.props;
 
     let count = 0;
-    const keyValue = Number(lessons[lessons.length - 1]["key"]) + 1;
+    const keyValue =
+      lessons.length === 0 ? 1 : Number(lessons[lessons.length - 1]["key"]) + 1;
 
     for (const key in lessonInfo) {
-      console.log("lessonInfo[key] :>> ", lessonInfo[key]);
       if (lessonInfo[key] === "") {
         message.error("레슨 정보를 입력해주세요");
         break;
@@ -119,14 +125,79 @@ class LessonDetailContainer extends React.Component {
       handleAddLessonInfo({ key: `${keyValue}`, ...lessonInfo });
       this.setState({
         modalVisible: false,
+        lessonInfo: {
+          lessonName: "",
+          lessonCoach: [],
+          student: [],
+          school: "",
+          grade: "",
+          day: "",
+          time: "",
+          pay: "",
+        },
       });
     }
   };
 
-  handleCheckChange = (selectedRows) => {
+  handleCheckChange = (selectedRowKeys, selectedRows) => {
+    if (selectedRows.length === 1) {
+      this.setState({
+        checkLesson: [...selectedRows],
+        update: true,
+        lessonInfo: selectedRows[0],
+        selectedRowKeys: [...selectedRowKeys],
+      });
+    } else {
+      this.setState({
+        checkLesson: [...selectedRows],
+        selectedRowKeys: [...selectedRowKeys],
+      });
+    }
+  };
+
+  handleDeleteLesson = () => {
+    const { checkLesson } = this.state;
+    const { handleDeleteLesson } = this.props;
     this.setState({
-      checkLesson: [...selectedRows],
+      checkLesson: [],
     });
+    handleDeleteLesson(checkLesson);
+  };
+
+  handleUpdateLesson = () => {
+    const { lessonInfo } = this.state;
+    const { handleUpdateLesson } = this.props;
+
+    let count = 0;
+
+    for (const key in lessonInfo) {
+      if (lessonInfo[key] === "" && key !== "lesson") {
+        message.error("레슨 정보를 입력해주세요");
+        break;
+      } else {
+        count = count + 1;
+      }
+    }
+
+    if (count >= 4) {
+      handleUpdateLesson(lessonInfo);
+      message.success("레슨 수정");
+      this.setState({
+        modalVisible: false,
+        lessonInfo: {
+          lessonName: "",
+          lessonCoach: [],
+          student: [],
+          school: "",
+          grade: "",
+          day: "",
+          time: "",
+          pay: "",
+        },
+        checkLesson: [],
+        selectedRowKeys: [],
+      });
+    }
   };
 
   render() {
@@ -136,6 +207,8 @@ class LessonDetailContainer extends React.Component {
       select,
       modalVisible,
       checkLesson,
+      update,
+      selectedRowKeys,
     } = this.state;
     const { lessons, users, coaches, days } = this.props;
     const {
@@ -146,14 +219,10 @@ class LessonDetailContainer extends React.Component {
       handleShowModal,
       handleCancel,
       handleCheckChange,
+      handleDeleteLesson,
+      handleUpdateLesson,
     } = this;
 
-    const test = Number(lessons[lessons.length - 1]["key"]);
-    console.log("test :>> ", test);
-    console.log("test :>> ", typeof `${test}`);
-    console.log("test :>> ", `${test}`);
-    console.log("this.props :>> ", this.props);
-    console.log("this.state.page :>> ", this.state.page);
     return (
       <LessonDetailPresenter
         lessonInfo={lessonInfo}
@@ -163,6 +232,8 @@ class LessonDetailContainer extends React.Component {
         days={days}
         loading={loading}
         select={select}
+        update={update}
+        selectedRowKeys={selectedRowKeys}
         checkLesson={checkLesson}
         modalVisible={modalVisible}
         handleChange={handleChange}
@@ -172,6 +243,8 @@ class LessonDetailContainer extends React.Component {
         handleCancel={handleCancel}
         handleCheckChange={handleCheckChange}
         handleTimeChange={handleTimeChange}
+        handleDeleteLesson={handleDeleteLesson}
+        handleUpdateLesson={handleUpdateLesson}
       />
     );
   }
@@ -189,6 +262,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleAddLessonInfo: (payload) => dispatch(addLessonInfo(payload)),
+    handleDeleteLesson: (payload) => dispatch(deleteLessonInfo(payload)),
+    handleUpdateLesson: (payload) => dispatch(updateLessonInfo(payload)),
   };
 };
 
