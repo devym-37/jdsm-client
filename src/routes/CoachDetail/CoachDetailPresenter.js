@@ -34,6 +34,7 @@ const CoachDetailPresenter = ({
   coaches,
   loading,
   select,
+  update,
   checkCoach,
   modalVisible,
   handleCheckChange,
@@ -41,6 +42,8 @@ const CoachDetailPresenter = ({
   handleSubmit,
   handleShowModal,
   handleCancel,
+  handleDeleteCoach,
+  handleUpdateCoach,
 }) => (
   <>
     <Helmet>
@@ -76,7 +79,7 @@ const CoachDetailPresenter = ({
           </Button>
           <Button
             danger
-            onClick={handleShowModal}
+            onClick={(e) => handleDeleteCoach(e)}
             style={{ backgroundColor: "#f5222d", color: "#fff" }}
           >
             코치 삭제
@@ -86,7 +89,7 @@ const CoachDetailPresenter = ({
         <ButtonContainer>
           <Button
             danger
-            onClick={handleShowModal}
+            onClick={(e) => handleDeleteCoach(e)}
             style={{ backgroundColor: "#f5222d", color: "#fff" }}
           >
             코치 삭제
@@ -97,15 +100,24 @@ const CoachDetailPresenter = ({
       <Modal
         visible={modalVisible}
         cancelText="취소"
-        okText="등록"
-        onOk={handleSubmit}
+        okText={update ? "수정" : "등록"}
+        onOk={update ? handleUpdateCoach : handleSubmit}
         onCancel={handleCancel}
       >
-        <CoachForm
-          coachForm={coachForm}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-        />
+        {update ? (
+          <CoachForm
+            update={update}
+            coachForm={coachForm}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        ) : (
+          <CoachForm
+            coachForm={coachForm}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        )}
       </Modal>
 
       {!loading ? (
