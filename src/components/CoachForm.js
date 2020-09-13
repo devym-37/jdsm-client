@@ -56,8 +56,8 @@ const CoachForm = ({ coachForm, handleChange }) => (
         <Div>이름</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="이름"
-          value={coachForm["이름"]}
+          name="name"
+          value={coachForm.name}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -65,8 +65,8 @@ const CoachForm = ({ coachForm, handleChange }) => (
         <Div>나이</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="나이"
-          value={coachForm["나이"]}
+          name="age"
+          value={coachForm.age}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -74,8 +74,8 @@ const CoachForm = ({ coachForm, handleChange }) => (
         <Div>연락처</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="연락처"
-          value={coachForm["연락처"]}
+          name="contact"
+          value={coachForm.contact}
           onChange={(e) => handleChange(e)}
         />
       </Container>

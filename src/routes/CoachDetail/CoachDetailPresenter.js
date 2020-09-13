@@ -37,6 +37,7 @@ const CoachDetailPresenter = ({
   update,
   checkCoach,
   modalVisible,
+  selectedRowKeys,
   handleCheckChange,
   handleChange,
   handleSubmit,
@@ -126,17 +127,18 @@ const CoachDetailPresenter = ({
         <Table
           rowSelection={{
             type: "checkbox",
+            selectedRowKeys: selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
-              handleCheckChange(selectedRows);
+              handleCheckChange(selectedRowKeys, selectedRows);
             },
           }}
           dataSource={coaches}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
         >
-          <Column title="이름" dataIndex="이름" key="이름" />
-          <Column title="나이" dataIndex="나이" key="나이" />
-          <Column title="연락처" dataIndex="연락처" key="연락처" />
+          <Column title="이름" dataIndex="name" key="name" />
+          <Column title="나이" dataIndex="age" key="age" />
+          <Column title="연락처" dataIndex="contact" key="contact" />
         </Table>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

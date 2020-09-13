@@ -14,14 +14,15 @@ class CoachDetailContainer extends React.Component {
     this.state = {
       loading: false,
       coachForm: {
-        이름: "",
-        나이: "",
-        연락처: "",
+        name: "",
+        age: "",
+        contact: "",
       },
       modalVisible: false,
       select: "",
       checkCoach: [],
       update: false,
+      selectedRowKeys: [],
     };
   }
 
@@ -63,7 +64,8 @@ class CoachDetailContainer extends React.Component {
     const { handleAddCoach, coaches } = this.props;
 
     let count = 0;
-    const keyValue = Number(coaches[coaches.length - 1]["key"]) + 1;
+    const keyValue =
+      coaches.length === 0 ? 1 : Number(coaches[coaches.length - 1]["key"]) + 1;
 
     for (const key in coachForm) {
       if (coachForm[key] === "") {
@@ -79,21 +81,30 @@ class CoachDetailContainer extends React.Component {
       message.success("코치 등록");
       this.setState({
         modalVisible: false,
+        checkCoach: [],
+        selectedRowKeys: [],
+        coachForm: {
+          name: "",
+          age: "",
+          contact: "",
+        },
       });
     }
   };
 
-  handleCheckChange = (selectedRows) => {
+  handleCheckChange = (selectedRowKeys, selectedRows) => {
     if (selectedRows.length === 1) {
       console.log("selectedRows :>> ", selectedRows);
       this.setState({
         checkCoach: [...selectedRows],
         update: true,
         coachForm: selectedRows[0],
+        selectedRowKeys: [...selectedRowKeys],
       });
     } else {
       this.setState({
         checkCoach: [...selectedRows],
+        selectedRowKeys: [...selectedRowKeys],
       });
     }
   };
@@ -110,7 +121,7 @@ class CoachDetailContainer extends React.Component {
   handleUpdateCoach = () => {
     const { coachForm } = this.state;
     const { handleUpdateCoach } = this.props;
-    console.log("click :>> ");
+
     let count = 0;
 
     for (const key in coachForm) {
@@ -122,12 +133,18 @@ class CoachDetailContainer extends React.Component {
       }
     }
 
-    if (count >= 3) {
+    if (count >= 2) {
       handleUpdateCoach(coachForm);
       message.success("코치 수정");
       this.setState({
         modalVisible: false,
-        checkUser: [],
+        checkCoach: [],
+        selectedRowKeys: [],
+        coachForm: {
+          name: "",
+          age: "",
+          contact: "",
+        },
       });
     }
   };
@@ -140,6 +157,7 @@ class CoachDetailContainer extends React.Component {
       modalVisible,
       checkCoach,
       update,
+      selectedRowKeys,
     } = this.state;
     const { coaches } = this.props;
     const {
@@ -161,6 +179,7 @@ class CoachDetailContainer extends React.Component {
         update={update}
         checkCoach={checkCoach}
         modalVisible={modalVisible}
+        selectedRowKeys={selectedRowKeys}
         handleCheckChange={handleCheckChange}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
