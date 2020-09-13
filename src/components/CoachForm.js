@@ -38,7 +38,7 @@ const ButtonContainer = styled.div`
 
 const IButton = styled(Button)``;
 
-const CoachForm = ({ coachForm, handleChange, handleSubmit }) => (
+const CoachForm = ({ coachForm, handleChange }) => (
   <>
     <Content style={{ margin: "0 auto" }}>
       <Breadcrumb style={{ margin: "30px 0" }}>
@@ -57,7 +57,7 @@ const CoachForm = ({ coachForm, handleChange, handleSubmit }) => (
         <Inputs
           placeholder="내용을 입력해주세요"
           name="이름"
-          value={coachForm.name}
+          value={coachForm["이름"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -66,7 +66,7 @@ const CoachForm = ({ coachForm, handleChange, handleSubmit }) => (
         <Inputs
           placeholder="내용을 입력해주세요"
           name="나이"
-          value={coachForm.age}
+          value={coachForm["나이"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -75,7 +75,7 @@ const CoachForm = ({ coachForm, handleChange, handleSubmit }) => (
         <Inputs
           placeholder="내용을 입력해주세요"
           name="연락처"
-          value={coachForm.contact}
+          value={coachForm["연락처"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
