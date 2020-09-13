@@ -62,8 +62,8 @@ const MemberForm = ({
         <Div>이름</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="이름"
-          value={userForm["이름"]}
+          name="name"
+          value={userForm.name}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -71,8 +71,8 @@ const MemberForm = ({
         <Div>학교</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="학교"
-          value={userForm["학교"]}
+          name="school"
+          value={userForm.school}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -80,8 +80,8 @@ const MemberForm = ({
         <Div>학년</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="학년"
-          value={userForm["학년"]}
+          name="grade"
+          value={userForm.grade}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -89,8 +89,8 @@ const MemberForm = ({
         <Div>연락처</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="연락처"
-          value={userForm["연락처"]}
+          name="contact"
+          value={userForm.contact}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -99,7 +99,7 @@ const MemberForm = ({
         <Selects name="레슨" placeholder="레슨 선택" onChange={handleSelect}>
           {lessons.map((lesson, index) => (
             <Option value={lesson.lessonName} key={index}>
-              {lesson["레슨이름"]}
+              {lesson.lessonName}
             </Option>
           ))}
         </Selects>

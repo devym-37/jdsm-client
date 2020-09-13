@@ -77,7 +77,7 @@ const LessonPresenter = ({
         <Div>레슨 이름</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="레슨이름"
+          name="lessonName"
           value={lessonInfo.lessonName}
           onChange={(e) => handleChange(e)}
         />
@@ -87,15 +87,15 @@ const LessonPresenter = ({
         <Selects
           mode="multiple"
           showArrow
-          name="레슨코치"
+          name="lessonCoach"
           placeholder="코치 선택"
           defaultValue={lessonInfo.lessonCoach}
-          onChange={handleSelect.bind(this, "레슨코치")}
+          onChange={handleSelect.bind(this, "lessonCoach")}
         >
           {coaches &&
             coaches.map((coach, index) => (
-              <Option value={coach["이름"]} key={index}>
-                {coach["이름"]}
+              <Option value={coach.name} key={index}>
+                {coach.name}
               </Option>
             ))}
         </Selects>
@@ -105,15 +105,15 @@ const LessonPresenter = ({
         <Selects
           mode="multiple"
           showArrow
-          name="수강생"
+          name="student"
           placeholder="수강생 선택"
           defaultValue={lessonInfo.student}
-          onChange={handleSelect.bind(this, "수강생")}
+          onChange={handleSelect.bind(this, "student")}
         >
           {users &&
             users.map((user, index) => (
-              <Option value={user["이름"]} key={index}>
-                {`${user["이름"]} - ${user["학교"]} - ${user["학년"]}`}
+              <Option value={user.name} key={index}>
+                {`${user.name} - ${user.school} - ${user.grade}`}
               </Option>
             ))}
         </Selects>
@@ -122,7 +122,7 @@ const LessonPresenter = ({
         <Div>학교</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="학교"
+          name="school"
           value={lessonInfo.school}
           onChange={(e) => handleChange(e)}
         />
@@ -132,7 +132,7 @@ const LessonPresenter = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           required={true}
-          name="학년"
+          name="grade"
           value={lessonInfo.grade}
           onChange={(e) => handleChange(e)}
         />
@@ -140,9 +140,9 @@ const LessonPresenter = ({
       <Container>
         <Div>요일</Div>
         <Selects
-          name="요일"
+          name="day"
           placeholder="요일 선택"
-          onChange={handleSelect.bind(this, "요일")}
+          onChange={handleSelect.bind(this, "day")}
         >
           {days &&
             days.map((day, index) => (
@@ -164,8 +164,8 @@ const LessonPresenter = ({
         <Div>레슨비</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="레슨비"
-          value={lessonInfo["레슨비"]}
+          name="pay"
+          value={lessonInfo.pay}
           onChange={(e) => handleChange(e)}
         />
       </Container>
