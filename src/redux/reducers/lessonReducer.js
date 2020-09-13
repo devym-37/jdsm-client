@@ -3,91 +3,91 @@ const initialState = {
   lesson: [
     {
       key: "1",
-      레슨이름: "첫번째",
-      레슨코치: ["kim"],
-      수강생: ["kim", "park"],
-      학교: "학교",
-      학년: "3학년",
-      요일: "월요일",
-      시간: "13:00",
-      레슨비: "10,000",
+      lessonName: "첫번째",
+      lessonCoach: ["kim"],
+      student: ["kim", "park"],
+      school: "학교",
+      grade: "3학년",
+      day: "월요일",
+      time: "13:00",
+      pay: "10,000",
     },
     {
       key: "2",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
     {
       key: "3",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
     {
       key: "4",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
     {
       key: "5",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
     {
       key: "6",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
     {
       key: "7",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
     {
       key: "8",
-      레슨이름: "두번째",
-      레슨코치: ["lee"],
-      수강생: ["lee"],
-      학교: "45학교",
-      학년: "1학년",
-      요일: "월요일",
-      시간: "14:00",
-      레슨비: "20,000",
+      lessonName: "두번째",
+      lessonCoach: ["lee"],
+      student: ["lee"],
+      school: "45학교",
+      grade: "1학년",
+      day: "월요일",
+      time: "14:00",
+      pay: "20,000",
     },
   ],
 };
@@ -111,7 +111,7 @@ const lessonReducer = (state = initialState, action) => {
     case "DELETE_LESSON": {
       return {
         ...state,
-        lesson: [...deleteLesson(state.coaches, action.lesson)],
+        lesson: [...deleteLesson(state.lesson, action.lesson)],
       };
     }
 
@@ -129,19 +129,18 @@ const deleteLesson = (lessonList, selectLesson) => {
     for (let i = 0; i < deleteLesson.length; i++) {
       if (i !== 0) {
         result = result.filter(
-          (coach) => coach["key"] !== deleteLesson[i]["key"]
+          (lesson) => lesson["key"] !== deleteLesson[i]["key"]
         );
       } else {
         result = data.filter(
-          (coach) => coach["key"] !== deleteLesson[i]["key"]
+          (lesson) => lesson["key"] !== deleteLesson[i]["key"]
         );
       }
     }
 
     return result;
   } else {
-    result = data.filter((coach) => coach["key"] !== deleteLesson[0]["key"]);
-
+    result = data.filter((lesson) => lesson["key"] !== deleteLesson[0]["key"]);
     return result;
   }
 };
