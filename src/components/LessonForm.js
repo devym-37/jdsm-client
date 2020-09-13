@@ -56,7 +56,6 @@ const LessonPresenter = ({
   handleChange,
   handleSelect,
   handleTimeChange,
-  handleSubmit,
 }) => (
   <>
     <Helmet>
@@ -91,12 +90,12 @@ const LessonPresenter = ({
           name="레슨코치"
           placeholder="코치 선택"
           defaultValue={lessonInfo.lessonCoach}
-          onChange={handleSelect.bind(this, "lessonCoach")}
+          onChange={handleSelect.bind(this, "레슨코치")}
         >
           {coaches &&
             coaches.map((coach, index) => (
-              <Option value={coach.name} key={index}>
-                {coach.name}
+              <Option value={coach["이름"]} key={index}>
+                {coach["이름"]}
               </Option>
             ))}
         </Selects>
@@ -109,12 +108,12 @@ const LessonPresenter = ({
           name="수강생"
           placeholder="수강생 선택"
           defaultValue={lessonInfo.student}
-          onChange={handleSelect.bind(this, "student")}
+          onChange={handleSelect.bind(this, "수강생")}
         >
           {users &&
             users.map((user, index) => (
-              <Option value={user.name} key={index}>
-                {user.name}
+              <Option value={user["이름"]} key={index}>
+                {`${user["이름"]} - ${user["학교"]} - ${user["학년"]}`}
               </Option>
             ))}
         </Selects>
@@ -143,7 +142,7 @@ const LessonPresenter = ({
         <Selects
           name="요일"
           placeholder="요일 선택"
-          onChange={handleSelect.bind(this, "day")}
+          onChange={handleSelect.bind(this, "요일")}
         >
           {days &&
             days.map((day, index) => (
@@ -166,7 +165,7 @@ const LessonPresenter = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           name="레슨비"
-          value={lessonInfo.pay}
+          value={lessonInfo["레슨비"]}
           onChange={(e) => handleChange(e)}
         />
       </Container>
