@@ -15,17 +15,17 @@ class UserDetailContainer extends React.Component {
     this.state = {
       loading: false,
       userForm: {
-        이름: "",
-        학교: "",
-        학년: "",
-        연락처: "",
-        레슨: "",
+        name: "",
+        school: "",
+        grade: "",
+        contact: "",
+        lesson: "",
       },
       modalVisible: false,
       select: "",
       checkUser: [],
-      selectedRowKeys: [],
       update: false,
+      selectedRowKeys: [],
     };
   }
 
@@ -39,16 +39,12 @@ class UserDetailContainer extends React.Component {
   }
 
   handleShowModal = (e) => {
-    const name = e.target.name;
-
     this.setState({
       modalVisible: true,
     });
   };
 
   handleCancel = (e) => {
-    const name = e.target.name;
-
     this.setState({
       modalVisible: false,
     });
@@ -85,7 +81,7 @@ class UserDetailContainer extends React.Component {
     const keyValue = Number(users[users.length - 1]["key"]) + 1;
 
     for (const key in userForm) {
-      if (userForm[key] === "" && key !== "레슨") {
+      if (userForm[key] === "" && key !== "lesson") {
         message.error("회원 정보를 입력해주세요");
         break;
       } else {
@@ -98,6 +94,13 @@ class UserDetailContainer extends React.Component {
       message.success("회원 등록");
       this.setState({
         modalVisible: false,
+        userForm: {
+          name: "",
+          school: "",
+          grade: "",
+          contact: "",
+          lesson: "",
+        },
       });
     }
   };
@@ -109,10 +112,12 @@ class UserDetailContainer extends React.Component {
         checkUser: [...selectedRows],
         update: true,
         userForm: selectedRows[0],
+        selectedRowKeys: [...selectedRowKeys],
       });
     } else {
       this.setState({
         checkUser: [...selectedRows],
+        selectedRowKeys: [...selectedRowKeys],
       });
     }
   };
@@ -129,11 +134,11 @@ class UserDetailContainer extends React.Component {
   handleUpdateUser = () => {
     const { userForm } = this.state;
     const { handleUpdateUser } = this.props;
-    console.log("click");
+
     let count = 0;
 
     for (const key in userForm) {
-      if (userForm[key] === "" && key !== "레슨") {
+      if (userForm[key] === "" && key !== "lesson") {
         message.error("회원 정보를 입력해주세요");
         break;
       } else {
@@ -147,6 +152,14 @@ class UserDetailContainer extends React.Component {
       this.setState({
         modalVisible: false,
         checkUser: [],
+        selectedRowKeys: [],
+        userForm: {
+          name: "",
+          school: "",
+          grade: "",
+          contact: "",
+          lesson: "",
+        },
       });
     }
   };
@@ -172,9 +185,7 @@ class UserDetailContainer extends React.Component {
       handleDeleteUser,
       handleUpdateUser,
     } = this;
-    console.log("update :>> ", update);
-    console.log("checkUser :>> ", checkUser);
-    console.log("users 1234 :>> ", users);
+
     return (
       <UserDetailPresenter
         userForm={userForm}
@@ -184,8 +195,8 @@ class UserDetailContainer extends React.Component {
         select={select}
         update={update}
         checkUser={checkUser}
-        modalVisible={modalVisible}
         selectedRowKeys={selectedRowKeys}
+        modalVisible={modalVisible}
         handleCheckChange={handleCheckChange}
         handleChange={handleChange}
         handleSelect={handleSelect}

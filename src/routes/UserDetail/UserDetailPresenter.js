@@ -34,6 +34,7 @@ const UserDetailPresenter = ({
   checkUser,
   update,
   handleCheckChange,
+  selectedRowKeys,
   modalVisible,
   handleChange,
   handleSubmit,
@@ -134,7 +135,7 @@ const UserDetailPresenter = ({
         <Table
           rowSelection={{
             type: "checkbox",
-            // selectedRowKeys: selectedRowKeys,
+            selectedRowKeys: selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
               handleCheckChange(selectedRowKeys, selectedRows);
             },
@@ -143,10 +144,10 @@ const UserDetailPresenter = ({
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
         >
-          <Column title="이름" dataIndex="이름" key="이름" />
-          <Column title="학교" dataIndex="학교" key="학교" />
-          <Column title="학년" dataIndex="학년" key="학년" />
-          <Column title="연락처" dataIndex="연락처" key="연락처" />
+          <Column title="이름" dataIndex="name" key="name" />
+          <Column title="학교" dataIndex="school" key="school" />
+          <Column title="학년" dataIndex="grade" key="grade" />
+          <Column title="연락처" dataIndex="contact" key="contact" />
         </Table>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
