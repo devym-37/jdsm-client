@@ -45,6 +45,7 @@ const CoachDetailPresenter = ({
   handleCancel,
   handleDeleteCoach,
   handleUpdateCoach,
+  handleDateChange,
 }) => (
   <>
     <Helmet>
@@ -110,13 +111,13 @@ const CoachDetailPresenter = ({
             update={update}
             coachForm={coachForm}
             handleChange={handleChange}
-            handleSubmit={handleSubmit}
+            handleDateChange={handleDateChange}
           />
         ) : (
           <CoachForm
             coachForm={coachForm}
             handleChange={handleChange}
-            handleSubmit={handleSubmit}
+            handleDateChange={handleDateChange}
           />
         )}
       </Modal>
@@ -137,7 +138,7 @@ const CoachDetailPresenter = ({
           pagination={{ pageSize: 8 }}
         >
           <Column title="이름" dataIndex="name" key="name" />
-          <Column title="나이" dataIndex="age" key="age" />
+          <Column title="생년월일" dataIndex="birthday" key="birthday" />
           <Column title="연락처" dataIndex="contact" key="contact" />
         </Table>
       ) : (

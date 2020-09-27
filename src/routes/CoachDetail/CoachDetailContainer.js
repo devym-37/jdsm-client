@@ -15,7 +15,7 @@ class CoachDetailContainer extends React.Component {
       loading: false,
       coachForm: {
         name: "",
-        age: "",
+        birthday: "",
         contact: "",
       },
       modalVisible: false,
@@ -49,12 +49,24 @@ class CoachDetailContainer extends React.Component {
 
   handleChange = (e) => {
     const { coachForm } = this.state;
+
     const value = e.target.value;
     const inputName = e.target.name;
+
     this.setState({
       coachForm: {
         ...coachForm,
         [inputName]: value,
+      },
+    });
+  };
+
+  handleDateChange = (date, dateString) => {
+    const { coachForm } = this.state;
+    this.setState({
+      coachForm: {
+        ...coachForm,
+        birthday: dateString,
       },
     });
   };
@@ -77,7 +89,7 @@ class CoachDetailContainer extends React.Component {
     }
 
     if (count >= 3) {
-      handleAddCoach({ key: `${keyValue}`, ...coachForm });
+      handleAddCoach({ key: keyValue, ...coachForm });
       message.success("코치 등록");
       this.setState({
         modalVisible: false,
@@ -85,7 +97,7 @@ class CoachDetailContainer extends React.Component {
         selectedRowKeys: [],
         coachForm: {
           name: "",
-          age: "",
+          birthday: "",
           contact: "",
         },
       });
@@ -142,7 +154,7 @@ class CoachDetailContainer extends React.Component {
         selectedRowKeys: [],
         coachForm: {
           name: "",
-          age: "",
+          birthday: "",
           contact: "",
         },
       });
@@ -168,6 +180,7 @@ class CoachDetailContainer extends React.Component {
       handleCheckChange,
       handleDeleteCoach,
       handleUpdateCoach,
+      handleDateChange,
     } = this;
 
     return (
@@ -187,6 +200,7 @@ class CoachDetailContainer extends React.Component {
         handleCancel={handleCancel}
         handleDeleteCoach={handleDeleteCoach}
         handleUpdateCoach={handleUpdateCoach}
+        handleDateChange={handleDateChange}
       />
     );
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Helmet from "react-helmet";
+import moment from "moment";
 
-import { Layout, Breadcrumb, Input, Button } from "antd";
+import { Layout, Breadcrumb, Input, Button, DatePicker } from "antd";
 
 const { Content } = Layout;
 
@@ -38,7 +38,7 @@ const ButtonContainer = styled.div`
 
 const IButton = styled(Button)``;
 
-const CoachForm = ({ coachForm, handleChange }) => (
+const CoachForm = ({ coachForm, handleChange, handleDateChange }) => (
   <>
     <Content style={{ margin: "0 auto" }}>
       <Breadcrumb style={{ margin: "30px 0" }}>
@@ -62,12 +62,15 @@ const CoachForm = ({ coachForm, handleChange }) => (
         />
       </Container>
       <Container>
-        <Div>나이</Div>
-        <Inputs
-          placeholder="내용을 입력해주세요"
-          name="age"
-          value={coachForm.age}
-          onChange={(e) => handleChange(e)}
+        <Div>생년월일</Div>
+        <DatePicker
+          name="birthday"
+          value={
+            coachForm.birthday === ""
+              ? coachForm.birthday
+              : moment(coachForm.birthday, "YYYY-MM-DD")
+          }
+          onChange={handleDateChange}
         />
       </Container>
       <Container>

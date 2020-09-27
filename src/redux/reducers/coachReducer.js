@@ -1,15 +1,15 @@
 const initialState = {
   coaches: [
     {
-      key: "1",
+      key: 1,
       name: "kim",
-      age: "23",
+      birthday: "1992-01-04",
       contact: "111-1111-1111",
     },
     {
-      key: "2",
+      key: 2,
       name: "lee",
-      age: "26",
+      birthday: "1992-01-04",
       contact: "222-2222-2222",
     },
   ],
