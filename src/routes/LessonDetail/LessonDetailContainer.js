@@ -14,20 +14,32 @@ class LessonDetailContainer extends React.Component {
     this.state = {
       loading: false,
       lessonInfo: {
-        lessonName: "",
-        lessonCoach: [],
-        student: [],
-        school: "",
-        grade: "",
-        day: "",
-        time: "",
-        pay: "",
+        name: "",
+        coachIds: [],
+        memberIds: [],
+        price: "",
+        schedules: [
+          {
+            dayOfWeed: "",
+            startTime: "",
+            endTime: "",
+          },
+        ],
       },
       modalVisible: false,
       select: "",
       checkLesson: [],
       update: false,
       selectedRowKeys: [],
+      dayOfWed: {
+        월요일: "MON",
+        화요일: "TUE",
+        수요일: "WED",
+        목요일: "TUR",
+        금요일: "FRI",
+        토요일: "SAT",
+        일요일: "SUN",
+      },
     };
   }
 
@@ -56,24 +68,12 @@ class LessonDetailContainer extends React.Component {
     const { lessonInfo } = this.state;
     const value = e.target.value;
     const inputName = e.target.name;
-    if (inputName === "pay") {
-      let lessonValue = value.replace(/\D/g, "");
-      this.setState({
-        lessonInfo: {
-          ...lessonInfo,
-          [inputName]: lessonValue
-            .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-        },
-      });
-    } else {
-      this.setState({
-        lessonInfo: {
-          ...lessonInfo,
-          [inputName]: value,
-        },
-      });
-    }
+    this.setState({
+      lessonInfo: {
+        ...lessonInfo,
+        [inputName]: value,
+      },
+    });
   };
 
   handleTimeChange = (time, timeString) => {
@@ -81,20 +81,40 @@ class LessonDetailContainer extends React.Component {
     this.setState({
       lessonInfo: {
         ...lessonInfo,
-        ["time"]: timeString,
+        schedules: [
+          {
+            startTime: timeString[0],
+            endTime: timeString[1],
+            ...lessonInfo.schedules[0],
+          },
+        ],
       },
     });
   };
 
   handleSelect = (name, value) => {
-    const { lessonInfo } = this.state;
+    const { lessonInfo, dayOfWed } = this.state;
 
-    this.setState({
-      lessonInfo: {
-        ...lessonInfo,
-        [name]: value,
-      },
-    });
+    if (name === "dayOfWeed") {
+      this.setState({
+        lessonInfo: {
+          ...lessonInfo,
+          schedules: [
+            {
+              ...lessonInfo.schedules[0],
+              dayOfWeed: value,
+            },
+          ],
+        },
+      });
+    } else {
+      this.setState({
+        lessonInfo: {
+          ...lessonInfo,
+          [name]: value,
+        },
+      });
+    }
   };
 
   handleSubmit = () => {
@@ -122,18 +142,21 @@ class LessonDetailContainer extends React.Component {
 
     if (count === 8) {
       message.success("레슨 등록");
-      handleAddLessonInfo({ key: `${keyValue}`, ...lessonInfo });
+      handleAddLessonInfo({ key: keyValue, ...lessonInfo });
       this.setState({
         modalVisible: false,
         lessonInfo: {
-          lessonName: "",
-          lessonCoach: [],
-          student: [],
-          school: "",
-          grade: "",
-          day: "",
-          time: "",
-          pay: "",
+          name: "",
+          coachIds: [],
+          memberIds: [],
+          price: "",
+          schedules: [
+            {
+              dayOfWeed: "",
+              startTime: "",
+              endTime: "",
+            },
+          ],
         },
       });
     }
@@ -185,14 +208,17 @@ class LessonDetailContainer extends React.Component {
       this.setState({
         modalVisible: false,
         lessonInfo: {
-          lessonName: "",
-          lessonCoach: [],
-          student: [],
-          school: "",
-          grade: "",
-          day: "",
-          time: "",
-          pay: "",
+          name: "",
+          coachIds: [],
+          memberIds: [],
+          price: "",
+          schedules: [
+            {
+              dayOfWeed: "",
+              startTime: "",
+              endTime: "",
+            },
+          ],
         },
         checkLesson: [],
         selectedRowKeys: [],
@@ -222,7 +248,7 @@ class LessonDetailContainer extends React.Component {
       handleDeleteLesson,
       handleUpdateLesson,
     } = this;
-
+    console.log("this.state :>> ", this.state);
     return (
       <LessonDetailPresenter
         lessonInfo={lessonInfo}

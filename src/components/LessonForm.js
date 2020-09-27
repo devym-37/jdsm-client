@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import { Layout, Breadcrumb, Input, Select, Button, TimePicker } from "antd";
 
+const { RangePicker } = TimePicker;
 const { Content } = Layout;
 const { Option } = Select;
 
@@ -77,8 +78,8 @@ const LessonPresenter = ({
         <Div>레슨 이름</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="lessonName"
-          value={lessonInfo.lessonName}
+          name="name"
+          value={lessonInfo.name}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -87,10 +88,10 @@ const LessonPresenter = ({
         <Selects
           mode="multiple"
           showArrow
-          name="lessonCoach"
+          name="coachIds"
           placeholder="코치 선택"
-          defaultValue={lessonInfo.lessonCoach}
-          onChange={handleSelect.bind(this, "lessonCoach")}
+          defaultValue={lessonInfo.coachIds}
+          onChange={handleSelect.bind(this, "coachIds")}
         >
           {coaches &&
             coaches.map((coach, index) => (
@@ -105,10 +106,10 @@ const LessonPresenter = ({
         <Selects
           mode="multiple"
           showArrow
-          name="student"
+          name="memberIds"
           placeholder="수강생 선택"
-          defaultValue={lessonInfo.student}
-          onChange={handleSelect.bind(this, "student")}
+          defaultValue={lessonInfo.memberIds}
+          onChange={handleSelect.bind(this, "memberIds")}
         >
           {users &&
             users.map((user, index) => (
@@ -118,31 +119,13 @@ const LessonPresenter = ({
             ))}
         </Selects>
       </Container>
-      <Container>
-        <Div>학교</Div>
-        <Inputs
-          placeholder="내용을 입력해주세요"
-          name="school"
-          value={lessonInfo.school}
-          onChange={(e) => handleChange(e)}
-        />
-      </Container>
-      <Container>
-        <Div>학년</Div>
-        <Inputs
-          placeholder="내용을 입력해주세요"
-          required={true}
-          name="grade"
-          value={lessonInfo.grade}
-          onChange={(e) => handleChange(e)}
-        />
-      </Container>
+
       <Container>
         <Div>요일</Div>
         <Selects
-          name="day"
+          name="dayOfWeed"
           placeholder="요일 선택"
-          onChange={handleSelect.bind(this, "day")}
+          onChange={handleSelect.bind(this, "dayOfWeed")}
         >
           {days &&
             days.map((day, index) => (
@@ -153,19 +136,20 @@ const LessonPresenter = ({
         </Selects>
       </Container>
       <Container>
-        <Div>시간</Div>
-        <TimePicker
+        <Div>수업 시간</Div>
+        <RangePicker
           minuteStep={30}
           format={"HH:mm"}
           onChange={handleTimeChange}
         />
       </Container>
+
       <Container>
         <Div>레슨비</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="pay"
-          value={lessonInfo.pay}
+          name="price"
+          value={lessonInfo.price}
           onChange={(e) => handleChange(e)}
         />
       </Container>

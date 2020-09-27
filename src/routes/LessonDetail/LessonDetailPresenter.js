@@ -74,6 +74,7 @@ const LessonDetailPresenter = ({
   loading,
   select,
   update,
+  timePickerOpen,
   checkLesson,
   modalVisible,
   handleChange,
@@ -86,12 +87,13 @@ const LessonDetailPresenter = ({
   handleDeleteLesson,
   handleUpdateLesson,
   selectedRowKeys,
+  handlePickerOpen,
 }) => (
   <>
     <Helmet>
       <title>레슨 현황</title>
     </Helmet>
-    <Content style={{ margin: "0 auto", width: 1100 }}>
+    <Content style={{ margin: "0 auto", width: 1100, maxWidth: "100%" }}>
       <Breadcrumb style={{ margin: "30px 0" }}>
         <Breadcrumb.Item
           style={{
@@ -151,9 +153,11 @@ const LessonDetailPresenter = ({
             users={users}
             coaches={coaches}
             days={days}
+            timePickerOpen={timePickerOpen}
             handleChange={handleChange}
             handleSelect={handleSelect}
             handleTimeChange={handleTimeChange}
+            handlePickerOpen={handlePickerOpen}
           />
         ) : (
           <LessonForm
@@ -161,9 +165,11 @@ const LessonDetailPresenter = ({
             users={users}
             coaches={coaches}
             days={days}
+            timePickerOpen={timePickerOpen}
             handleChange={handleChange}
             handleSelect={handleSelect}
             handleTimeChange={handleTimeChange}
+            handlePickerOpen={handlePickerOpen}
           />
         )}
       </Modal>
@@ -180,28 +186,93 @@ const LessonDetailPresenter = ({
             },
           }}
           dataSource={lessons}
-          style={{ fontWeight: 600 }}
+          style={{ fontWeight: 600, width: "100%" }}
           pagination={{ pageSize: 8 }}
         >
-          <Column title="레슨이름" dataIndex="lessonName" key="lessonName" />
-          <Column title="레슨코치" dataIndex="lessonCoach" key="lessonCoach" />
+          <Column
+            title="레슨이름"
+            dataIndex="name"
+            key="name"
+            style={{ fontWeight: 500 }}
+          />
+          <Column
+            title="레슨코치"
+            dataIndex="coachIds"
+            key="coachIds"
+            render={(coach) => (
+              <>
+                <Tag color="#70a1ff" key={"coaches"}>
+                  {coach.length} 명
+                </Tag>
+              </>
+            )}
+          />
+          {console.log("lessons :>> ", lessons)}
           <Column
             title="수강생"
-            dataIndex="student"
-            key="student"
+            dataIndex="memberIds"
+            key="memberIds"
             render={(student) => (
               <>
-                <Tag color="#70a1ff" key={"student"}>
+                <Tag color="#70a1ff" key={"members"}>
                   {student.length} 명
                 </Tag>
               </>
             )}
           />
-          <Column title="학교" dataIndex="school" key="school" />
-          <Column title="학년" dataIndex="grade" key="grage" />
-          <Column title="요일" dataIndex="day" key="day" />
-          <Column title="시간" dataIndex="time" key="time" />
-          <Column title="레슨비" dataIndex="pay" key="pay" />
+          <Column
+            title="요일"
+            dataIndex="schedules"
+            key="schedules"
+            render={(schedules) => (
+              <>
+                <Tag color="#70a1ff" key={"schedules.dayOfWeed"}>
+                  {schedules[0].dayOfWeed}
+                </Tag>
+              </>
+            )}
+          />
+          <Column
+            title="시작 시간"
+            dataIndex="schedules"
+            key="schedules"
+            render={(schedules) => (
+              <>
+                <Tag color="#70a1ff" key={"schedules.startTime"}>
+                  {schedules[0].startTime}
+                </Tag>
+              </>
+            )}
+          />
+          <Column
+            title="종료 시간"
+            dataIndex="schedules"
+            key="schedules"
+            render={(schedules) => (
+              <>
+                <Tag color="#70a1ff" key={"schedules.endTime"}>
+                  {schedules[0].endTime}
+                </Tag>
+              </>
+            )}
+          />
+          <Column
+            title="레슨비"
+            dataIndex="price"
+            key="price"
+            render={(price) => {
+              let value = price
+                .toString()
+                .replace(/\D/g, "")
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              return (
+                <>
+                  <Tag key={"price"}>{`${value} 원`}</Tag>
+                </>
+              );
+            }}
+          />
         </Table>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
