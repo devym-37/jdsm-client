@@ -51,7 +51,7 @@ const IButton = styled(Button)``;
 
 const LessonPresenter = ({
   lessonInfo,
-  users,
+  members,
   coaches,
   days,
   handleChange,
@@ -111,8 +111,8 @@ const LessonPresenter = ({
           defaultValue={lessonInfo.memberIds}
           onChange={handleSelect.bind(this, "memberIds")}
         >
-          {users &&
-            users.map((user, index) => (
+          {members &&
+            members.map((user, index) => (
               <Option value={user.name} key={index}>
                 {`${user.name} - ${user.school} - ${user.grade}`}
               </Option>

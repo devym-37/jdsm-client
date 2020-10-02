@@ -1,6 +1,6 @@
-export const ADD_USER = "ADD_USER";
-export const DELETE_USER = "DELETE_USER";
-export const UPDATE_USER = "UPDATE_USER";
+export const ADD_MEMBER = "ADD_MEMBER";
+export const DELETE_MEMBER = "DELETE_MEMBER";
+export const UPDATE_MEMBER = "UPDATE_MEMBER";
 
 export const ADD_LESSON = "ADD_LESSON";
 export const DELETE_LESSON = "DELETE_LESSON";

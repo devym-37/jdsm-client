@@ -66,7 +66,7 @@ const Title = styled.p`
 
 const IButton = styled(Button)``;
 
-const DashboardPresenter = ({ lessons, users, coaches }) => (
+const DashboardPresenter = ({ lessons, members, coaches }) => (
   <>
     <Helmet>
       <title>JD Sports 현황</title>
@@ -89,7 +89,7 @@ const DashboardPresenter = ({ lessons, users, coaches }) => (
         <Row gutter={16}>
           <Col span={6}>
             <ICard size="small" title="총 수강생 수">
-              <Title> {`${users.length} 명`}</Title>
+              <Title> {`${members.length} 명`}</Title>
             </ICard>
           </Col>
           <Col span={6}>
@@ -113,7 +113,7 @@ const DashboardPresenter = ({ lessons, users, coaches }) => (
         <Row gutter={16}>
           <Col span={24}>
             <ICard size="small" title="미납 회원 명단">
-              <Title> {`${users.length} 명`}</Title>
+              <Title> {`${members.length} 명`}</Title>
             </ICard>
           </Col>
         </Row>
@@ -122,7 +122,7 @@ const DashboardPresenter = ({ lessons, users, coaches }) => (
         <Row gutter={16}>
           <Col span={24}>
             <ICard size="small" title="보강 회원 명단">
-              <Title> {`${users.length} 명`}</Title>
+              <Title> {`${members.length} 명`}</Title>
             </ICard>
           </Col>
         </Row>

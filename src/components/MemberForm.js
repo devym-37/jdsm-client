@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import moment from "moment";
 
 import { Layout, Breadcrumb, Input, Select } from "antd";
 
@@ -38,7 +39,7 @@ const Selects = styled(Select)`
 `;
 
 const MemberForm = ({
-  userForm,
+  memberForm,
   handleChange,
   handleSelect,
   handleSubmit,
@@ -63,34 +64,25 @@ const MemberForm = ({
         <Inputs
           placeholder="내용을 입력해주세요"
           name="name"
-          value={userForm.name}
+          value={memberForm.name}
           onChange={(e) => handleChange(e)}
         />
       </Container>
       <Container>
-        <Div>학교</Div>
+        <Div>보호자 성함</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
-          name="school"
-          value={userForm.school}
+          name="parentName"
+          value={memberForm.parentName}
           onChange={(e) => handleChange(e)}
         />
       </Container>
       <Container>
-        <Div>학년</Div>
-        <Inputs
-          placeholder="내용을 입력해주세요"
-          name="grade"
-          value={userForm.grade}
-          onChange={(e) => handleChange(e)}
-        />
-      </Container>
-      <Container>
-        <Div>연락처</Div>
+        <Div>보호자 연락처</Div>
         <Inputs
           placeholder="내용을 입력해주세요"
           name="contact"
-          value={userForm.contact}
+          value={memberForm.contact}
           onChange={(e) => handleChange(e)}
         />
       </Container>
@@ -103,6 +95,15 @@ const MemberForm = ({
             </Option>
           ))}
         </Selects>
+      </Container>
+      <Container>
+        <Div>등록 일자</Div>
+        <Inputs
+          name="registrationDate"
+          value={moment().format("YYYY-MM-DD")}
+          disabled
+          onChange={(e) => handleChange(e)}
+        />
       </Container>
     </Content>
   </>

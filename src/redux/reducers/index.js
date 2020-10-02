@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import userReducer from "./userReducer";
+import memberReducer from "./memberReducer";
 import lessonReducer from "./lessonReducer";
 import coachReducer from "./coachReducer";
 
 const rootReducer = combineReducers({
-  userReducer,
+  memberReducer,
   lessonReducer,
   coachReducer,
 });

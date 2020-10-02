@@ -9,10 +9,14 @@ class DashboardContainer extends React.Component {
   }
 
   render() {
-    const { lessons, users, coaches } = this.props;
+    const { lessons, members, coaches } = this.props;
 
     return (
-      <DashboardPresenter lessons={lessons} users={users} coaches={coaches} />
+      <DashboardPresenter
+        lessons={lessons}
+        members={members}
+        coaches={coaches}
+      />
     );
   }
 }
@@ -20,7 +24,7 @@ class DashboardContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     lessons: state.lessonReducer.lesson,
-    users: state.userReducer.users,
+    members: state.memberReducer.members,
     coaches: state.coachReducer.coaches,
   };
 };

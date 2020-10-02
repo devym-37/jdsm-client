@@ -56,7 +56,7 @@ class SideBar extends React.Component {
             <Link to="/lessons">레슨</Link>
           </Menu.Item>
           <Menu.Item key="userList" icon={<TeamOutlined />}>
-            <Link to="/users">회원</Link>
+            <Link to="/members">회원</Link>
           </Menu.Item>
           <Menu.Item key="coachList" icon={<UserOutlined />}>
             <Link to="/coaches">코치</Link>
