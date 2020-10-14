@@ -24,7 +24,7 @@ class Headers extends React.Component {
               key="1"
               style={{ display: "flex", justifyContent: "flex-end" }}
             >
-              JD Sports
+              JD Football Academy
             </Menu.Item>
           </Menu>
         </Header>
