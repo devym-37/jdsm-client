@@ -1,5 +1,10 @@
 import * as types from "../types/types";
 
+export const initMemberProfile = (member) => ({
+  type: types.INIT_MEMBER,
+  member,
+});
+
 export const addMemberProfile = (member) => ({
   type: types.ADD_MEMBER,
   member,

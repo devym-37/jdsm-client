@@ -1,3 +1,4 @@
+export const INIT_MEMBER = "INIT_MEMBER";
 export const ADD_MEMBER = "ADD_MEMBER";
 export const DELETE_MEMBER = "DELETE_MEMBER";
 export const UPDATE_MEMBER = "UPDATE_MEMBER";
