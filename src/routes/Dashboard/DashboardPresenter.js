@@ -69,7 +69,7 @@ const IButton = styled(Button)``;
 const DashboardPresenter = ({ lessons, members, coaches }) => (
   <>
     <Helmet>
-      <title>JD Sports 현황</title>
+      <title>JD Football Academy 현황</title>
     </Helmet>
 
     <Container>
@@ -81,7 +81,7 @@ const DashboardPresenter = ({ lessons, members, coaches }) => (
             marginLeft: "30px",
           }}
         >
-          [ JD Sports 현황 ]
+          [ JD Football Academy 현황 ]
         </Breadcrumb.Item>
       </Breadcrumb>
 
