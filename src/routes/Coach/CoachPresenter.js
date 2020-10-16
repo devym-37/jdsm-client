@@ -17,6 +17,7 @@ import {
   Empty,
   Modal,
 } from "antd";
+import { css } from "emotion";
 
 const { Column } = Table;
 
@@ -28,6 +29,12 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
   margin-bottom: 15px;
 `;
+
+const tableCSS = css({
+  "& thead > tr > th": {
+    fontWeight: "bold",
+  },
+});
 
 const CoachPresenter = ({
   coachForm,
@@ -136,10 +143,21 @@ const CoachPresenter = ({
           dataSource={coaches}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
+          className={tableCSS}
         >
           <Column title="이름" dataIndex="name" key="name" />
-          <Column title="생년월일" dataIndex="birthday" key="birthday" />
-          <Column title="연락처" dataIndex="contact" key="contact" />
+          <Column
+            title="생년월일"
+            dataIndex="birthday"
+            key="birthday"
+            align="center"
+          />
+          <Column
+            title="연락처"
+            dataIndex="contact"
+            key="contact"
+            align="center"
+          />
         </Table>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

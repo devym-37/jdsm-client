@@ -15,6 +15,7 @@ import {
   Empty,
   Modal,
 } from "antd";
+import { css } from "emotion";
 
 const { Column } = Table;
 const { Content } = Layout;
@@ -24,6 +25,12 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
   margin-bottom: 15px;
 `;
+
+const tableCSS = css({
+  "& thead > tr > th": {
+    fontWeight: "bold",
+  },
+});
 
 const MemberPresenter = ({
   members,
@@ -48,7 +55,7 @@ const MemberPresenter = ({
     <Helmet>
       <title>수강생 현황</title>
     </Helmet>
-    <Content style={{ margin: "0 auto", width: 700 }}>
+    <Content style={{ margin: "0 auto", width: 850 }}>
       <Breadcrumb style={{ margin: "30px 0 15px 0" }}>
         <Breadcrumb.Item
           style={{
@@ -143,15 +150,33 @@ const MemberPresenter = ({
           dataSource={members}
           style={{ fontWeight: 600 }}
           pagination={{ pageSize: 8 }}
+          className={tableCSS}
         >
           <Column title="이름" dataIndex="name" key="name" />
-          <Column title="보호자 성함" dataIndex="parentName" key="parentName" />
-          <Column title="보호자 연락처" dataIndex="contact" key="contact" />
-          <Column title="레슨" dataIndex="lesson" key="lesson" />
+          <Column
+            title="보호자 성함"
+            dataIndex="parentName"
+            key="parentName"
+            align="center"
+          />
+          <Column
+            title="보호자 연락처"
+            dataIndex="contact"
+            key="contact"
+            align="center"
+          />
+          <Column
+            title="레슨"
+            dataIndex="lesson"
+            key="lesson"
+            width="200px"
+            align="center"
+          />
           <Column
             title="등록 일자"
             dataIndex="registrationDate"
             key="registrationDate"
+            align="center"
           />
         </Table>
       ) : (

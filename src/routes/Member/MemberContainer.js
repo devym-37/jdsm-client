@@ -6,6 +6,11 @@ import {
   deleteMemberProfile,
   updateMemberProfile,
 } from "../../redux/actions/memberActions";
+import {
+  thunkGetMembers,
+  thunkPostMember,
+  thunkGetMember,
+} from "../../redux/thunk/memberThnuk";
 import moment from "moment";
 
 import { message } from "antd";
@@ -31,12 +36,13 @@ class MemberContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { members } = this.props;
+    const { members, handleThunkGetMembers } = this.props;
     if (members) {
       this.setState({
         loading: true,
       });
     }
+    handleThunkGetMembers();
   }
 
   handleShowModal = (e) => {
@@ -75,12 +81,16 @@ class MemberContainer extends React.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { memberForm } = this.state;
-    const { handleAddMember, members } = this.props;
+    const {
+      handleAddMember,
+      members,
+      handleThunkPostMember,
+      handleThunkGetMembers,
+    } = this.props;
 
     let count = 0;
-    const keyValue = Number(members[members.length - 1]["key"]) + 1;
 
     for (const key in memberForm) {
       if (
@@ -88,7 +98,6 @@ class MemberContainer extends React.Component {
         key !== "lesson" &&
         key !== "registrationDate"
       ) {
-        console.log("memberForm :>> ", memberForm);
         message.error("회원 정보를 입력해주세요");
         break;
       } else {
@@ -97,22 +106,38 @@ class MemberContainer extends React.Component {
     }
 
     if (count >= 4) {
-      handleAddMember({
-        key: keyValue,
+      const response = await handleThunkPostMember({
+        key: members.length + 1,
         ...memberForm,
         registrationDate: moment().format("YYYY-MM-DD"),
       });
-      message.success("회원 등록");
-      this.setState({
-        modalVisible: false,
-        memberForm: {
-          name: "",
-          registrationDate: "",
-          parentName: "",
-          contact: "",
-          lesson: "",
-        },
-      });
+      console.log("response --------->>>>>>>>", response);
+      if (response === 200) {
+        handleThunkGetMembers();
+        message.success("회원 등록");
+        this.setState({
+          modalVisible: false,
+          memberForm: {
+            name: "",
+            registrationDate: "",
+            parentName: "",
+            contact: "",
+            lesson: "",
+          },
+        });
+      } else {
+        message.error("회원 등록 실패");
+        this.setState({
+          modalVisible: false,
+          memberForm: {
+            name: "",
+            registrationDate: "",
+            parentName: "",
+            contact: "",
+            lesson: "",
+          },
+        });
+      }
     }
   };
 
@@ -144,9 +169,10 @@ class MemberContainer extends React.Component {
 
   handleUpdateMember = () => {
     const { memberForm } = this.state;
-    const { handleUpdMember } = this.props;
+    const { handleUpdMember, handleThunkPostMember, members } = this.props;
 
     let count = 0;
+    const id = memberForm.key;
 
     for (const key in memberForm) {
       if (memberForm[key] === "" && key !== "lesson") {
@@ -158,7 +184,7 @@ class MemberContainer extends React.Component {
     }
 
     if (count >= 4) {
-      handleUpdMember(memberForm);
+      console.log("memberForm", memberForm); // id로 수정 필드
       message.success("회원 수정");
       this.setState({
         modalVisible: false,
@@ -233,6 +259,9 @@ const mapDispatchToProps = (dispatch) => {
     handleAddMember: (payload) => dispatch(addMemberProfile(payload)),
     handleDelMember: (payload) => dispatch(deleteMemberProfile(payload)),
     handleUpdMember: (payload) => dispatch(updateMemberProfile(payload)),
+    handleThunkGetMembers: () => dispatch(thunkGetMembers()),
+    handleThunkPostMember: (payload) => dispatch(thunkPostMember(payload)),
+    handleThunkGetMember: (payload) => dispatch(thunkGetMember(payload)),
   };
 };
 

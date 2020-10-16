@@ -17,6 +17,7 @@ import {
   Empty,
   Modal,
 } from "antd";
+import { css } from "emotion";
 
 const { Column } = Table;
 const { Content } = Layout;
@@ -64,6 +65,12 @@ const ButtonContainer = styled.div`
 `;
 
 const IButton = styled(Button)``;
+
+const tableCSS = css({
+  "& thead > tr > th": {
+    fontWeight: "bold",
+  },
+});
 
 const LessonPresenter = ({
   lessonInfo,
@@ -186,15 +193,11 @@ const LessonPresenter = ({
             },
           }}
           dataSource={lessons}
+          className={tableCSS}
           style={{ fontWeight: 600, width: "100%" }}
           pagination={{ pageSize: 8 }}
         >
-          <Column
-            title="레슨이름"
-            dataIndex="name"
-            key="name"
-            style={{ fontWeight: 500 }}
-          />
+          <Column title="레슨이름" dataIndex="name" key="name" />
           <Column
             title="레슨코치"
             dataIndex="coachIds"
@@ -206,6 +209,7 @@ const LessonPresenter = ({
                 </Tag>
               </>
             )}
+            align="center"
           />
           {console.log("lessons :>> ", lessons)}
           <Column
@@ -219,6 +223,7 @@ const LessonPresenter = ({
                 </Tag>
               </>
             )}
+            align="center"
           />
           <Column
             title="요일"
@@ -231,6 +236,7 @@ const LessonPresenter = ({
                 </Tag>
               </>
             )}
+            align="center"
           />
           <Column
             title="시작 시간"
@@ -243,11 +249,13 @@ const LessonPresenter = ({
                 </Tag>
               </>
             )}
+            align="center"
           />
           <Column
             title="종료 시간"
             dataIndex="schedules"
             key="schedules"
+            fontWeight="bold"
             render={(schedules) => (
               <>
                 <Tag color="#70a1ff" key={"schedules.endTime"}>
@@ -255,6 +263,7 @@ const LessonPresenter = ({
                 </Tag>
               </>
             )}
+            align="center"
           />
           <Column
             title="레슨비"
@@ -272,6 +281,7 @@ const LessonPresenter = ({
                 </>
               );
             }}
+            align="center"
           />
         </Table>
       ) : (
