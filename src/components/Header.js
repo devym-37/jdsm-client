@@ -15,14 +15,19 @@ class Headers extends React.Component {
   };
 
   render() {
-    console.log("this.props :>> ", this.props);
     return (
       <>
         <Header className="site-layout-background" style={{ padding: 0 }}>
           <Menu theme="dark" mode="horizontal">
             <Menu.Item
               key="1"
-              style={{ display: "flex", justifyContent: "flex-end" }}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                backgroundColor: "#001529",
+                color: "#fff",
+                cursor: "default",
+              }}
             >
               JD Football Academy
             </Menu.Item>
