@@ -6,6 +6,12 @@ import {
   updateCoachProfile,
   deleteCoachProfile,
 } from "../../redux/actions/coachActions";
+import {
+  thunkGetCoach,
+  thunkGetCoaches,
+  thunkRegisterCoach,
+  thunkUpdateCoach,
+} from "../../redux/thunk/coachThunk";
 
 import { message } from "antd";
 class CoachContainer extends React.Component {
@@ -71,13 +77,11 @@ class CoachContainer extends React.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { coachForm } = this.state;
-    const { handleAddCoach, coaches } = this.props;
+    const { handleAddCoach, coaches, handleThunkRegisterCoach } = this.props;
 
     let count = 0;
-    const keyValue =
-      coaches.length === 0 ? 1 : Number(coaches[coaches.length - 1]["key"]) + 1;
 
     for (const key in coachForm) {
       if (coachForm[key] === "") {
@@ -89,18 +93,35 @@ class CoachContainer extends React.Component {
     }
 
     if (count >= 3) {
-      handleAddCoach({ key: keyValue, ...coachForm });
-      message.success("코치 등록");
-      this.setState({
-        modalVisible: false,
-        checkCoach: [],
-        selectedRowKeys: [],
-        coachForm: {
-          name: "",
-          birthday: "",
-          contact: "",
-        },
+      const response = await handleThunkRegisterCoach({
+        key: coaches.length + 1,
+        ...coachForm,
       });
+      if (response === 200) {
+        message.success("코치 등록");
+        this.setState({
+          modalVisible: false,
+          checkCoach: [],
+          selectedRowKeys: [],
+          coachForm: {
+            name: "",
+            birthday: "",
+            contact: "",
+          },
+        });
+      } else {
+        message.error("코치 등록 실패");
+        this.setState({
+          modalVisible: false,
+          checkCoach: [],
+          selectedRowKeys: [],
+          coachForm: {
+            name: "",
+            birthday: "",
+            contact: "",
+          },
+        });
+      }
     }
   };
 
@@ -217,6 +238,12 @@ const mapDispatchToProps = (dispatch) => {
     handleAddCoach: (payload) => dispatch(addCoachProfile(payload)),
     handleUpdateCoach: (payload) => dispatch(updateCoachProfile(payload)),
     handleDeleteCoach: (payload) => dispatch(deleteCoachProfile(payload)),
+    handleThunkGetCoaches: () => dispatch(thunkGetCoaches()),
+    handleThunkGetCoach: (payload) => dispatch(thunkGetCoach(payload)),
+    handleThunkUpdateCoach: (payload, id) =>
+      dispatch(thunkUpdateCoach(payload, id)),
+    handleThunkRegisterCoach: (payload) =>
+      dispatch(thunkRegisterCoach(payload)),
   };
 };
 

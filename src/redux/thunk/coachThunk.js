@@ -1,9 +1,19 @@
 import * as api from "../../api";
+import {
+  initCoachProfile,
+  addCoachProfile,
+  updateCoachProfile,
+  deleteCoachProfile,
+} from "../actions/coachActions";
 
 export const thunkGetCoaches = () => {
   return async (dispatch, getState) => {
     const response = await api.coach.getCoachesInfo();
-    console.log("response :>> ", response);
+    const { data } = response.data;
+
+    if (response.status === 200 && data.length !== 0) {
+      dispatch(initCoachProfile(data));
+    }
   };
 };
 
@@ -24,6 +34,6 @@ export const thunkGetCoach = (payload) => {
 export const thunkUpdateCoach = (payload, id) => {
   return async (dispatch, getState) => {
     const response = await api.coach.updateCoachInfo(payload, id);
-    console.log("response :>> ", response);
+    console.log("update coach response :>> ", response);
   };
 };

@@ -1,22 +1,15 @@
 const initialState = {
-  coaches: [
-    {
-      key: 1,
-      name: "kim",
-      birthday: "1992-01-04",
-      contact: "111-1111-1111",
-    },
-    {
-      key: 2,
-      name: "lee",
-      birthday: "1992-01-04",
-      contact: "222-2222-2222",
-    },
-  ],
+  coaches: [],
 };
 
 const coachReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "INIT_COACH": {
+      return {
+        ...state,
+        coaches: [...action.coach],
+      };
+    }
     case "ADD_COACH": {
       return {
         ...state,

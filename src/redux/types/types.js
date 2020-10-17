@@ -7,6 +7,7 @@ export const ADD_LESSON = "ADD_LESSON";
 export const DELETE_LESSON = "DELETE_LESSON";
 export const UPDATE_LESSON = "UPDATE_LESSON";
 
+export const INIT_COACH = "INIT_COACH";
 export const ADD_COACH = "ADD_COACH";
 export const DELETE_COACH = "DELETE_COACH";
 export const UPDATE_COACH = "UPDATE_COACH";
