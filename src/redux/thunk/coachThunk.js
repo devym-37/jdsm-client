@@ -35,5 +35,6 @@ export const thunkUpdateCoach = (payload, id) => {
   return async (dispatch, getState) => {
     const response = await api.coach.updateCoachInfo(payload, id);
     console.log("update coach response :>> ", response);
+    return response;
   };
 };

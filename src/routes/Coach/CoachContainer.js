@@ -33,12 +33,13 @@ class CoachContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { coaches } = this.props;
+    const { coaches, handleThunkGetCoaches } = this.props;
     if (coaches) {
       this.setState({
         loading: true,
       });
     }
+    handleThunkGetCoaches();
   }
 
   handleShowModal = () => {
@@ -151,12 +152,16 @@ class CoachContainer extends React.Component {
     handleDeleteCoach(checkCoach);
   };
 
-  handleUpdateCoach = () => {
+  handleUpdateCoach = async () => {
     const { coachForm } = this.state;
-    const { handleUpdateCoach } = this.props;
+    const {
+      handleUpdateCoach,
+      handleThunkUpdateCoach,
+      handleThunkGetCoaches,
+    } = this.props;
 
     let count = 0;
-
+    console.log("coachForm update>>>", coachForm);
     for (const key in coachForm) {
       if (coachForm[key] === "") {
         message.error("코치 정보를 입력해주세요");
@@ -167,8 +172,10 @@ class CoachContainer extends React.Component {
     }
 
     if (count >= 2) {
-      handleUpdateCoach(coachForm);
+      const response = await handleThunkUpdateCoach(coachForm, coachForm.key);
+      console.log("update response", response);
       message.success("코치 수정");
+      handleThunkGetCoaches();
       this.setState({
         modalVisible: false,
         checkCoach: [],
@@ -203,7 +210,7 @@ class CoachContainer extends React.Component {
       handleUpdateCoach,
       handleDateChange,
     } = this;
-
+    console.log("coaches", coaches);
     return (
       <CoachPresenter
         coachForm={coachForm}
