@@ -78,10 +78,10 @@ const LessonPresenter = ({
         <Selects
           mode="multiple"
           showArrow
-          name="coachIds"
+          name="coachKeys"
           placeholder="코치 선택"
-          defaultValue={lessonInfo.coachIds}
-          onChange={handleSelect.bind(this, "coachIds")}
+          defaultValue={lessonInfo.coachKeys}
+          onChange={handleSelect.bind(this, "coachKeys")}
         >
           {coaches &&
             coaches.map((coach, index) => (
@@ -96,10 +96,10 @@ const LessonPresenter = ({
         <Selects
           mode="multiple"
           showArrow
-          name="memberIds"
+          name="memberKeys"
           placeholder="수강생 선택"
-          defaultValue={lessonInfo.memberIds}
-          onChange={handleSelect.bind(this, "memberIds")}
+          defaultValue={lessonInfo.memberKeys}
+          onChange={handleSelect.bind(this, "memberKeys")}
         >
           {members &&
             members.map((user, index) => (
