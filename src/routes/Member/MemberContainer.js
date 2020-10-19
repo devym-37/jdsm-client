@@ -2,11 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import MemberPresenter from "./MemberPresenter";
 import {
-  addMemberProfile,
-  deleteMemberProfile,
-  updateMemberProfile,
-} from "../../redux/actions/memberActions";
-import {
   thunkGetMembers,
   thunkPostMember,
   thunkGetMember,
@@ -84,7 +79,6 @@ class MemberContainer extends React.Component {
   handleSubmit = async () => {
     const { memberForm } = this.state;
     const {
-      handleAddMember,
       members,
       handleThunkPostMember,
       handleThunkGetMembers,
@@ -107,11 +101,10 @@ class MemberContainer extends React.Component {
 
     if (count >= 4) {
       const response = await handleThunkPostMember({
-        key: members.length + 1,
         ...memberForm,
         registrationDate: moment().format("YYYY-MM-DD"),
       });
-      console.log("response --------->>>>>>>>", response);
+
       if (response === 200) {
         handleThunkGetMembers();
         message.success("회원 등록");
@@ -160,16 +153,15 @@ class MemberContainer extends React.Component {
 
   handleDeleteMember = () => {
     const { checkMember } = this.state;
-    const { handleDelMember } = this.props;
+
     this.setState({
       checkMember: [],
     });
-    handleDelMember(checkMember);
   };
 
   handleUpdateMember = () => {
     const { memberForm } = this.state;
-    const { handleUpdMember, handleThunkPostMember, members } = this.props;
+    const { handleThunkPostMember, members } = this.props;
 
     let count = 0;
     const id = memberForm.key;
@@ -256,9 +248,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddMember: (payload) => dispatch(addMemberProfile(payload)),
-    handleDelMember: (payload) => dispatch(deleteMemberProfile(payload)),
-    handleUpdMember: (payload) => dispatch(updateMemberProfile(payload)),
     handleThunkGetMembers: () => dispatch(thunkGetMembers()),
     handleThunkPostMember: (payload) => dispatch(thunkPostMember(payload)),
     handleThunkGetMember: (payload) => dispatch(thunkGetMember(payload)),
