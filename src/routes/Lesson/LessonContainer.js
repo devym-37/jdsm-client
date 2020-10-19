@@ -8,6 +8,11 @@ import {
 } from "../../redux/actions/lessonActions";
 import { thunkGetMembers } from "../../redux/thunk/memberThnuk";
 import { thunkGetCoaches } from "../../redux/thunk/coachThunk";
+import {
+  thunkRegisterLesson,
+  thunkRegisterLessonCoach,
+  thunkRegisterLessonMember,
+} from "../../redux/thunk/lessonThunk";
 
 import { message } from "antd";
 class LessonContainer extends React.Component {
@@ -17,8 +22,8 @@ class LessonContainer extends React.Component {
       loading: false,
       lessonInfo: {
         name: "",
-        coachIds: [],
-        memberIds: [],
+        coachKeys: [],
+        memberKeys: [],
         price: "",
         schedules: [
           {
@@ -82,14 +87,19 @@ class LessonContainer extends React.Component {
 
   handleTimeChange = (time, timeString) => {
     const { lessonInfo } = this.state;
+    console.log("timeString", timeString);
+    console.log("lessonInfo", lessonInfo);
+    console.log("lessonInfo.schedules[0]", lessonInfo.schedules[0]);
+    const startTime = timeString[0];
+    const endTime = timeString[1];
     this.setState({
       lessonInfo: {
         ...lessonInfo,
         schedules: [
           {
-            startTime: timeString[0],
-            endTime: timeString[1],
             ...lessonInfo.schedules[0],
+            startTime: startTime,
+            endTime: endTime,
           },
         ],
       },
@@ -97,9 +107,8 @@ class LessonContainer extends React.Component {
   };
 
   handleSelect = (name, value) => {
-    const { lessonInfo } = this.state;
-    console.log("name", name);
-    console.log("value", value);
+    const { lessonInfo, dayOfWed } = this.state;
+    console.log("lessonInfo 11>>>>", lessonInfo);
     if (name === "dayOfWeed") {
       this.setState({
         lessonInfo: {
@@ -107,7 +116,7 @@ class LessonContainer extends React.Component {
           schedules: [
             {
               ...lessonInfo.schedules[0],
-              dayOfWeed: value,
+              dayOfWeed: dayOfWed[value],
             },
           ],
         },
@@ -122,14 +131,19 @@ class LessonContainer extends React.Component {
     }
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { lessonInfo } = this.state;
-    const { handleAddLessonInfo, lessons } = this.props;
+    const {
+      lessons,
+      handleThunkRegisterLesson,
+      handleThunkRegisterLessonCoach,
+      handleThunkRegisterLessonMember,
+    } = this.props;
 
     let count = 0;
     const keyValue =
       lessons.length === 0 ? 1 : Number(lessons[lessons.length - 1]["key"]) + 1;
-
+    console.log("submit lessonInfo", lessonInfo);
     for (const key in lessonInfo) {
       if (lessonInfo[key] === "") {
         message.error("레슨 정보를 입력해주세요");
@@ -144,26 +158,54 @@ class LessonContainer extends React.Component {
         count = count + 1;
       }
     }
-
-    if (count === 8) {
+    console.log("count", count);
+    if (count === 5) {
       message.success("레슨 등록");
-      handleAddLessonInfo({ key: keyValue, ...lessonInfo });
-      this.setState({
-        modalVisible: false,
-        lessonInfo: {
-          name: "",
-          coachIds: [],
-          memberIds: [],
-          price: "",
-          schedules: [
-            {
-              dayOfWeed: "",
-              startTime: "",
-              endTime: "",
-            },
-          ],
-        },
-      });
+      const {
+        code,
+        message: { id },
+      } = await handleThunkRegisterLesson(lessonInfo);
+      console.log("lessonInfo", lessonInfo);
+      console.log("lesson 111 response", code);
+      console.log("lesson 222 response", id);
+      if (code === 200) {
+        handleThunkRegisterLessonCoach(lessonInfo.coachKeys, id);
+        handleThunkRegisterLessonMember(lessonInfo.memberKeys, id);
+        this.setState({
+          modalVisible: false,
+          lessonInfo: {
+            name: "",
+            coachKeys: [],
+            memberKeys: [],
+            price: "",
+            schedules: [
+              {
+                dayOfWeed: "",
+                startTime: "",
+                endTime: "",
+              },
+            ],
+          },
+        });
+      } else {
+        message.error("레슨 등록 실패");
+        this.setState({
+          modalVisible: false,
+          lessonInfo: {
+            name: "",
+            coachKeys: [],
+            memberKeys: [],
+            price: "",
+            schedules: [
+              {
+                dayOfWeed: "",
+                startTime: "",
+                endTime: "",
+              },
+            ],
+          },
+        });
+      }
     }
   };
 
@@ -214,8 +256,8 @@ class LessonContainer extends React.Component {
         modalVisible: false,
         lessonInfo: {
           name: "",
-          coachIds: [],
-          memberIds: [],
+          coachKeys: [],
+          memberKeys: [],
           price: "",
           schedules: [
             {
@@ -295,9 +337,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleGetMembersInfo: () => dispatch(thunkGetMembers()),
     handleThunkGetCoaches: () => dispatch(thunkGetCoaches()),
-    handleAddLessonInfo: (payload) => dispatch(addLessonInfo(payload)),
-    handleDeleteLesson: (payload) => dispatch(deleteLessonInfo(payload)),
-    handleUpdateLesson: (payload) => dispatch(updateLessonInfo(payload)),
+    handleThunkRegisterLesson: (payload) =>
+      dispatch(thunkRegisterLesson(payload)),
+    handleThunkRegisterLessonCoach: (payload, id) =>
+      dispatch(thunkRegisterLessonCoach(payload, id)),
+    handleThunkRegisterLessonMember: (payload, id) =>
+      dispatch(thunkRegisterLessonMember(payload, id)),
   };
 };
 

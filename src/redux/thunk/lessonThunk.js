@@ -9,22 +9,26 @@ export const thunkGetLesson = (payload) => {
 
 export const thunkRegisterLesson = (payload) => {
   return async (dispatch, getState) => {
-    const response = await api.lesson.registerLessonInfo(payload);
-    console.log("response :>> ", response);
+    const { data } = await api.lesson.registerLessonInfo(payload);
+    console.log("register response :>> ", data);
+    return data;
   };
 };
 
 export const thunkRegisterLessonCoach = (payload, id) => {
   return async (dispatch, getState) => {
     const response = await api.lesson.registerLessonCoach(payload, id);
-    console.log("response :>> ", response);
+    console.log(
+      "rethunkRegisterLessonCoachponthunkRegisterLessonCoache :>> ",
+      response
+    );
   };
 };
 
 export const thunkRegisterLessonMember = (payload, id) => {
   return async (dispatch, getState) => {
     const response = await api.lesson.registerLessonMember(payload, id);
-    console.log("response :>> ", response);
+    console.log("thunkRegisterLessonMember :>> ", response);
   };
 };
 
