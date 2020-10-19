@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
-import { Link } from "react-router-dom";
 
-import { Layout, Breadcrumb, Input, Select, Button, TimePicker } from "antd";
+import { Layout, Breadcrumb, Input, Select, TimePicker } from "antd";
 
 const { RangePicker } = TimePicker;
 const { Content } = Layout;
@@ -39,15 +38,6 @@ const Selects = styled(Select)`
   border: none;
   border-radius: 0.4rem;
 `;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 500px;
-  justify-content: flex-end;
-  margin-top: 15px;
-`;
-
-const IButton = styled(Button)``;
 
 const LessonPresenter = ({
   lessonInfo,
@@ -95,7 +85,7 @@ const LessonPresenter = ({
         >
           {coaches &&
             coaches.map((coach, index) => (
-              <Option value={coach.name} key={index}>
+              <Option value={coach.key} key={index}>
                 {coach.name}
               </Option>
             ))}
@@ -113,8 +103,8 @@ const LessonPresenter = ({
         >
           {members &&
             members.map((user, index) => (
-              <Option value={user.name} key={index}>
-                {`${user.name} - ${user.school} - ${user.grade}`}
+              <Option value={user.key} key={index}>
+                {`${user.name}`}
               </Option>
             ))}
         </Selects>

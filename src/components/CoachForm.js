@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 
-import { Layout, Breadcrumb, Input, Button, DatePicker } from "antd";
+import { Layout, Breadcrumb, Input, DatePicker } from "antd";
 
 const { Content } = Layout;
 
@@ -28,15 +28,6 @@ const Inputs = styled(Input)`
   font-size: 14px;
   color: #9b9b9b;
 `;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 500px;
-  justify-content: flex-end;
-  margin-top: 15px;
-`;
-
-const IButton = styled(Button)``;
 
 const CoachForm = ({ coachForm, handleChange, handleDateChange }) => (
   <>

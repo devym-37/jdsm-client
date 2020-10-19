@@ -1,8 +1,7 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import styled from "styled-components";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 class Headers extends React.Component {
   state = {

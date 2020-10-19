@@ -5,24 +5,12 @@ import Loader from "../../components/Loader";
 // import Table from "../../components/Table";
 import CoachForm from "../../components/CoachForm";
 
-import {
-  Layout,
-  Breadcrumb,
-  Input,
-  Select,
-  Button,
-  Table,
-  Tag,
-  Space,
-  Empty,
-  Modal,
-} from "antd";
+import { Layout, Breadcrumb, Select, Button, Table, Empty, Modal } from "antd";
 import { css } from "emotion";
 
 const { Column } = Table;
 
 const { Content } = Layout;
-const { Option } = Select;
 
 const ButtonContainer = styled.div`
   display: flex;

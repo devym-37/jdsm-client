@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Image } from "antd";
+import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   FileOutlined,

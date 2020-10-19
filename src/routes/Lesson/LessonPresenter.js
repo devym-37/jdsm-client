@@ -5,66 +5,17 @@ import Loader from "../../components/Loader";
 // import Table from "../../components/Table";
 import LessonForm from "../../components/LessonForm";
 
-import {
-  Layout,
-  Breadcrumb,
-  Input,
-  Select,
-  Button,
-  Table,
-  Tag,
-  Space,
-  Empty,
-  Modal,
-} from "antd";
+import { Layout, Breadcrumb, Button, Table, Tag, Empty, Modal } from "antd";
 import { css } from "emotion";
 
 const { Column } = Table;
 const { Content } = Layout;
-const { Option } = Select;
-
-const Container = styled(Content)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-weight: bold;
-`;
-
-const Div = styled.div`
-  justify-content: flex-end;
-  display: flex;
-  margin-right: 30px;
-  width: 100px;
-`;
-
-const Inputs = styled(Input)`
-  width: 300px;
-  height: 40px;
-  padding: 15px 150px 18px 17px;
-  line-height: 17px;
-  font-size: 14px;
-  color: #9b9b9b;
-  border: none;
-  border-radius: 0.4rem;
-  transition: box-shadow 300ms;
-`;
-
-const Selects = styled(Select)`
-  width: 300px;
-  font-size: 14px;
-  color: #9b9b9b;
-  border: none;
-  border-radius: 0.4rem;
-`;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
 `;
-
-const IButton = styled(Button)``;
 
 const tableCSS = css({
   "& thead > tr > th": {

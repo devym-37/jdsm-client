@@ -6,6 +6,8 @@ import {
   deleteLessonInfo,
   updateLessonInfo,
 } from "../../redux/actions/lessonActions";
+import { thunkGetMembers } from "../../redux/thunk/memberThnuk";
+import { thunkGetCoaches } from "../../redux/thunk/coachThunk";
 
 import { message } from "antd";
 class LessonContainer extends React.Component {
@@ -44,12 +46,14 @@ class LessonContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { lessons } = this.props;
+    const { lessons, handleThunkGetCoaches, handleGetMembersInfo } = this.props;
     if (lessons) {
       this.setState({
         loading: true,
       });
     }
+    handleThunkGetCoaches();
+    handleGetMembersInfo();
   }
 
   handleShowModal = () => {
@@ -94,7 +98,8 @@ class LessonContainer extends React.Component {
 
   handleSelect = (name, value) => {
     const { lessonInfo } = this.state;
-
+    console.log("name", name);
+    console.log("value", value);
     if (name === "dayOfWeed") {
       this.setState({
         lessonInfo: {
@@ -249,6 +254,7 @@ class LessonContainer extends React.Component {
       handleUpdateLesson,
     } = this;
     console.log("this.state :>> ", this.state);
+    console.log("this.props", this.props);
     return (
       <LessonPresenter
         lessonInfo={lessonInfo}
@@ -287,6 +293,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    handleGetMembersInfo: () => dispatch(thunkGetMembers()),
+    handleThunkGetCoaches: () => dispatch(thunkGetCoaches()),
     handleAddLessonInfo: (payload) => dispatch(addLessonInfo(payload)),
     handleDeleteLesson: (payload) => dispatch(deleteLessonInfo(payload)),
     handleUpdateLesson: (payload) => dispatch(updateLessonInfo(payload)),
