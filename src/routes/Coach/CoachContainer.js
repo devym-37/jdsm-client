@@ -2,11 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import CoachPresenter from "./CoachPresenter";
 import {
-  addCoachProfile,
-  updateCoachProfile,
-  deleteCoachProfile,
-} from "../../redux/actions/coachActions";
-import {
   thunkGetCoach,
   thunkGetCoaches,
   thunkRegisterCoach,
@@ -80,7 +75,7 @@ class CoachContainer extends React.Component {
 
   handleSubmit = async () => {
     const { coachForm } = this.state;
-    const { handleAddCoach, coaches, handleThunkRegisterCoach } = this.props;
+    const { coaches, handleThunkRegisterCoach } = this.props;
 
     let count = 0;
 
@@ -95,7 +90,6 @@ class CoachContainer extends React.Component {
 
     if (count >= 3) {
       const response = await handleThunkRegisterCoach({
-        key: coaches.length + 1,
         ...coachForm,
       });
       if (response === 200) {
@@ -145,20 +139,15 @@ class CoachContainer extends React.Component {
 
   handleDeleteCoach = () => {
     const { checkCoach } = this.state;
-    const { handleDeleteCoach } = this.props;
+
     this.setState({
       checkCoach: [],
     });
-    handleDeleteCoach(checkCoach);
   };
 
   handleUpdateCoach = async () => {
     const { coachForm } = this.state;
-    const {
-      handleUpdateCoach,
-      handleThunkUpdateCoach,
-      handleThunkGetCoaches,
-    } = this.props;
+    const { handleThunkUpdateCoach, handleThunkGetCoaches } = this.props;
 
     let count = 0;
     console.log("coachForm update>>>", coachForm);
@@ -242,9 +231,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddCoach: (payload) => dispatch(addCoachProfile(payload)),
-    handleUpdateCoach: (payload) => dispatch(updateCoachProfile(payload)),
-    handleDeleteCoach: (payload) => dispatch(deleteCoachProfile(payload)),
     handleThunkGetCoaches: () => dispatch(thunkGetCoaches()),
     handleThunkGetCoach: (payload) => dispatch(thunkGetCoach(payload)),
     handleThunkUpdateCoach: (payload, id) =>
