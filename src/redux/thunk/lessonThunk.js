@@ -1,6 +1,22 @@
 import * as api from "../../api";
+import {
+  initLessonInfo,
+  addLessonInfo,
+  updateLessonInfo,
+  deleteLessonInfo,
+} from "../actions/lessonActions";
 
-export const thunkGetLesson = (payload) => {
+export const thunkGetLessons = () => {
+  return async (dispatch, getState) => {
+    const response = await api.lesson.getLessons();
+    const { data } = response.data;
+    console.log("getLessons", data);
+    if (response.status === 200 && data.length !== 0) {
+      dispatch(initLessonInfo(data));
+    }
+  };
+};
+export const thunkGetLessonInfo = (payload) => {
   return async (dispatch, getState) => {
     const response = await api.lesson.getLessonInfo(payload);
     console.log("response :>> ", response);

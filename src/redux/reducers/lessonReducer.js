@@ -1,81 +1,16 @@
 const initialState = {
   days: ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
-  lesson: [
-    {
-      key: 1,
-      name: "첫번째",
-      coachIds: [1],
-      memberIds: [1, 2],
-      price: 10000,
-      schedules: [
-        {
-          dayOfWeed: "MON",
-          startTime: "18:00",
-          endTime: "19:00",
-        },
-      ],
-    },
-    {
-      key: 2,
-      name: "두번째",
-      coachIds: [2],
-      memberIds: [1],
-      price: 10000,
-      schedules: [
-        {
-          dayOfWeed: "MON",
-          startTime: "18:00",
-          endTime: "19:00",
-        },
-      ],
-    },
-    {
-      key: 3,
-      name: "두번째",
-      coachIds: [1],
-      memberIds: [2],
-      price: 10000,
-      schedules: [
-        {
-          dayOfWeed: "MON",
-          startTime: "18:00",
-          endTime: "19:00",
-        },
-      ],
-    },
-    {
-      key: 4,
-      name: "두번째",
-      coachIds: [1],
-      memberIds: [1],
-      price: 10000,
-      schedules: [
-        {
-          dayOfWeed: "MON",
-          startTime: "18:00",
-          endTime: "19:00",
-        },
-      ],
-    },
-    {
-      key: 5,
-      name: "두번째",
-      coachIds: [2],
-      memberIds: [2],
-      price: 10000,
-      schedules: [
-        {
-          dayOfWeed: "MON",
-          startTime: "18:00",
-          endTime: "19:00",
-        },
-      ],
-    },
-  ],
+  lesson: [],
 };
 
 const lessonReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "INIT_LESSON": {
+      return {
+        ...state,
+        lesson: [...action.lesson],
+      };
+    }
     case "ADD_LESSON": {
       return {
         ...state,
