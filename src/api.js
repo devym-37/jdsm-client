@@ -24,6 +24,7 @@ export const lesson = {
   registerLessonMember: (params, id) =>
     api.post(`/lesson/${id}/members`, params),
   updateLessonInfo: (params, id) => api.put(`/lesson/${id}`, params),
+  getLessons: () => api.get(`/lesson`),
   getLessonDay: (params) => api.get(`/lesson/days/${params}`),
   getLessonInfo: (id) => api.get(`/lesson/${id}`),
   getLessonCoaches: (id) => api.get(`/lesson/${id}/coaches`),
