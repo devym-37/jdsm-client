@@ -59,7 +59,7 @@ const DashboardPresenter = ({ lessons, members, coaches }) => (
           </Col>
           <Col span={6}>
             <ICard size="small" title="총 레슨 수">
-              <Title>{`${lessons.length}`}</Title>
+              <Title>{`${lessons.length} 개`}</Title>
             </ICard>
           </Col>
           <Col span={6}>

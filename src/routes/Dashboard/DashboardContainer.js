@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DashboardPresenter from "./DashboardPresenter";
 import { thunkGetMembers } from "../../redux/thunk/memberThnuk";
+import { thunkGetLessons } from "../../redux/thunk/lessonThunk";
 
 class DashboardContainer extends React.Component {
   constructor(props) {
@@ -10,8 +11,9 @@ class DashboardContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { handleThunkGetMembers } = this.props;
+    const { handleThunkGetMembers, handleThunkGetLessons } = this.props;
     handleThunkGetMembers();
+    handleThunkGetLessons();
   }
   render() {
     const { lessons, members, coaches } = this.props;
@@ -37,6 +39,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleThunkGetMembers: () => dispatch(thunkGetMembers()),
+    handleThunkGetLessons: () => dispatch(thunkGetLessons()),
   };
 };
 
