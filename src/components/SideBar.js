@@ -51,19 +51,19 @@ class SideBar extends React.Component {
           </Menu.Item>
           <SubMenu key="lessonDay" icon={<FileOutlined />} title="레슨 일정">
             {days.map((day, index) => (
-              <Menu.Item key={index}>
-                <Link to={`/lesson/${day}`}>{day}</Link>
+              <Menu.Item key={day}>
+                <Link to={`/lessons/${day}`}>{day}</Link>
               </Menu.Item>
             ))}
           </SubMenu>
           <Menu.Item key="lessonList" icon={<DesktopOutlined />}>
-            <Link to="/lessons">레슨</Link>
+            <Link to="/lesson">레슨</Link>
           </Menu.Item>
           <Menu.Item key="userList" icon={<TeamOutlined />}>
-            <Link to="/members">회원</Link>
+            <Link to="/member">회원</Link>
           </Menu.Item>
           <Menu.Item key="coachList" icon={<UserOutlined />}>
-            <Link to="/coaches">코치</Link>
+            <Link to="/coach">코치</Link>
           </Menu.Item>
         </Menu>
       </Sider>
