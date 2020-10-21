@@ -58,7 +58,8 @@ export const thunkUpdateLesson = (payload, id) => {
 export const thunkGetLessonDay = (payload) => {
   return async (dispatch, getState) => {
     const response = await api.lesson.getLessonDay(payload);
-    console.log("response :>> ", response);
+    console.log("response thunkGetLessonDay :>> ", response);
+    return response;
   };
 };
 
