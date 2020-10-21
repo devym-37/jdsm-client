@@ -1,17 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import LessonPresenter from "./LessonPresenter";
-import {
-  addLessonInfo,
-  deleteLessonInfo,
-  updateLessonInfo,
-} from "../../redux/actions/lessonActions";
+
 import { thunkGetMembers } from "../../redux/thunk/memberThnuk";
 import { thunkGetCoaches } from "../../redux/thunk/coachThunk";
 import {
   thunkRegisterLesson,
   thunkRegisterLessonCoach,
   thunkRegisterLessonMember,
+  thunkGetLessons,
 } from "../../redux/thunk/lessonThunk";
 
 import { message } from "antd";
@@ -27,7 +24,7 @@ class LessonContainer extends React.Component {
         price: "",
         schedules: [
           {
-            dayOfWeed: "",
+            dayOfWeek: "",
             startTime: "",
             endTime: "",
           },
@@ -38,20 +35,34 @@ class LessonContainer extends React.Component {
       checkLesson: [],
       update: false,
       selectedRowKeys: [],
-      dayOfWed: {
-        월요일: "MON",
-        화요일: "TUE",
-        수요일: "WED",
-        목요일: "TUR",
-        금요일: "FRI",
-        토요일: "SAT",
-        일요일: "SUN",
+      dayOfEng: {
+        월요일: "MONDAY",
+        화요일: "TUESDAY",
+        수요일: "WEDNESDAY",
+        목요일: "THURSDAY",
+        금요일: "FRIDAY",
+        토요일: "SATURDAY",
+        일요일: "SUNDAY",
+      },
+      dayOfKor: {
+        MONDAY: "월요일",
+        TUESDAY: "화요일",
+        WEDNESDAY: "수요일",
+        THURSDAY: "목요일",
+        FRIDAY: "금요일",
+        SATURDAY: "토요일",
+        SUNDAY: "일요일",
       },
     };
   }
 
   componentDidMount() {
-    const { lessons, handleThunkGetCoaches, handleGetMembersInfo } = this.props;
+    const {
+      lessons,
+      handleThunkGetCoaches,
+      handleGetMembersInfo,
+      handleThunkGetLessons,
+    } = this.props;
     if (lessons) {
       this.setState({
         loading: true,
@@ -59,6 +70,7 @@ class LessonContainer extends React.Component {
     }
     handleThunkGetCoaches();
     handleGetMembersInfo();
+    handleThunkGetLessons();
   }
 
   handleShowModal = () => {
@@ -87,9 +99,7 @@ class LessonContainer extends React.Component {
 
   handleTimeChange = (time, timeString) => {
     const { lessonInfo } = this.state;
-    console.log("timeString", timeString);
-    console.log("lessonInfo", lessonInfo);
-    console.log("lessonInfo.schedules[0]", lessonInfo.schedules[0]);
+
     const startTime = timeString[0];
     const endTime = timeString[1];
     this.setState({
@@ -107,16 +117,16 @@ class LessonContainer extends React.Component {
   };
 
   handleSelect = (name, value) => {
-    const { lessonInfo, dayOfWed } = this.state;
-    console.log("lessonInfo 11>>>>", lessonInfo);
-    if (name === "dayOfWeed") {
+    const { lessonInfo, dayOfEng } = this.state;
+
+    if (name === "dayOfWeek") {
       this.setState({
         lessonInfo: {
           ...lessonInfo,
           schedules: [
             {
               ...lessonInfo.schedules[0],
-              dayOfWeed: dayOfWed[value],
+              dayOfWeek: dayOfEng[value],
             },
           ],
         },
@@ -141,9 +151,7 @@ class LessonContainer extends React.Component {
     } = this.props;
 
     let count = 0;
-    const keyValue =
-      lessons.length === 0 ? 1 : Number(lessons[lessons.length - 1]["key"]) + 1;
-    console.log("submit lessonInfo", lessonInfo);
+
     for (const key in lessonInfo) {
       if (lessonInfo[key] === "") {
         message.error("레슨 정보를 입력해주세요");
@@ -158,16 +166,14 @@ class LessonContainer extends React.Component {
         count = count + 1;
       }
     }
-    console.log("count", count);
+
     if (count === 5) {
       message.success("레슨 등록");
       const {
         code,
         message: { id },
       } = await handleThunkRegisterLesson(lessonInfo);
-      console.log("lessonInfo", lessonInfo);
-      console.log("lesson 111 response", code);
-      console.log("lesson 222 response", id);
+
       if (code === 200) {
         handleThunkRegisterLessonCoach(lessonInfo.coachKeys, id);
         handleThunkRegisterLessonMember(lessonInfo.memberKeys, id);
@@ -282,6 +288,7 @@ class LessonContainer extends React.Component {
       checkLesson,
       update,
       selectedRowKeys,
+      dayOfKor,
     } = this.state;
     const { lessons, members, coaches, days } = this.props;
     const {
@@ -295,8 +302,7 @@ class LessonContainer extends React.Component {
       handleDeleteLesson,
       handleUpdateLesson,
     } = this;
-    console.log("this.state :>> ", this.state);
-    console.log("this.props", this.props);
+
     return (
       <LessonPresenter
         lessonInfo={lessonInfo}
@@ -307,6 +313,7 @@ class LessonContainer extends React.Component {
         loading={loading}
         select={select}
         update={update}
+        dayOfKor={dayOfKor}
         selectedRowKeys={selectedRowKeys}
         checkLesson={checkLesson}
         modalVisible={modalVisible}
@@ -337,6 +344,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleGetMembersInfo: () => dispatch(thunkGetMembers()),
     handleThunkGetCoaches: () => dispatch(thunkGetCoaches()),
+    handleThunkGetLessons: () => dispatch(thunkGetLessons()),
     handleThunkRegisterLesson: (payload) =>
       dispatch(thunkRegisterLesson(payload)),
     handleThunkRegisterLessonCoach: (payload, id) =>

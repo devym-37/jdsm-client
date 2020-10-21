@@ -31,6 +31,7 @@ const LessonPresenter = ({
   days,
   loading,
   select,
+  dayOfKor,
   update,
   timePickerOpen,
   checkLesson,
@@ -151,8 +152,8 @@ const LessonPresenter = ({
           <Column title="레슨이름" dataIndex="name" key="name" />
           <Column
             title="레슨코치"
-            dataIndex="coachIds"
-            key="coachIds"
+            dataIndex="coaches"
+            key="coaches"
             render={(coach) => (
               <>
                 <Tag color="#70a1ff" key={"coaches"}>
@@ -162,11 +163,10 @@ const LessonPresenter = ({
             )}
             align="center"
           />
-          {console.log("lessons :>> ", lessons)}
           <Column
             title="수강생"
-            dataIndex="memberIds"
-            key="memberIds"
+            dataIndex="members"
+            key="members"
             render={(student) => (
               <>
                 <Tag color="#70a1ff" key={"members"}>
@@ -182,8 +182,8 @@ const LessonPresenter = ({
             key="schedules"
             render={(schedules) => (
               <>
-                <Tag color="#70a1ff" key={"schedules.dayOfWeed"}>
-                  {schedules[0].dayOfWeed}
+                <Tag color="#70a1ff" key={"schedules.dayOfWeek"}>
+                  {dayOfKor[schedules[0].dayOfWeek]}
                 </Tag>
               </>
             )}
