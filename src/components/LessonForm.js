@@ -113,9 +113,9 @@ const LessonPresenter = ({
       <Container>
         <Div>요일</Div>
         <Selects
-          name="dayOfWeed"
+          name="dayOfWeek"
           placeholder="요일 선택"
-          onChange={handleSelect.bind(this, "dayOfWeed")}
+          onChange={handleSelect.bind(this, "dayOfWeek")}
         >
           {days &&
             days.map((day, index) => (
