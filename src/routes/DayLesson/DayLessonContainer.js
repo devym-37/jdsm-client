@@ -10,6 +10,8 @@ import {
   thunkRegisterLessonMember,
   thunkGetLessons,
   thunkGetLessonDay,
+  thunkGetLessonCoaches,
+  thunkGetLessonMembers,
 } from "../../redux/thunk/lessonThunk";
 
 import { message } from "antd";
@@ -18,24 +20,19 @@ class DayLessonContainer extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      lessonInfo: {
-        name: "",
-        coachKeys: [],
-        memberKeys: [],
-        price: "",
-        schedules: [
-          {
-            dayOfWeek: "",
-            startTime: "",
-            endTime: "",
-          },
-        ],
+      dayLessonInfo: {
+        key: "",
+        coaches: [],
+        members: [],
+        paid: "",
+        attendance: "",
       },
       modalVisible: false,
       select: "",
       checkLesson: [],
       update: false,
       selectedRowKeys: [],
+      lessonListKey: [],
       dayOfEng: {
         월요일: "MONDAY",
         화요일: "TUESDAY",
@@ -68,20 +65,18 @@ class DayLessonContainer extends React.Component {
       match: { params },
     } = this.props;
     const { dayOfEng } = this.state;
-
+    const { getDetailLessonInfo } = this;
     this.setState({
       selectDay: params.day,
     });
-    console.log("this.props  1234", params.day);
-    console.log("dayOfEng[params.day]", dayOfEng[params.day]);
-    const response = await handleThunkGetLessonDay(dayOfEng[params.day]);
 
-    console.log("response 1234 ", response);
+    const response = await handleThunkGetLessonDay(dayOfEng[params.day]);
 
     if (response !== undefined && response.status === 200) {
       const {
         data: { data },
       } = response;
+      getDetailLessonInfo(data);
       this.setState({
         lessons: data,
         loading: true,
@@ -92,9 +87,6 @@ class DayLessonContainer extends React.Component {
         loading: true,
       });
     }
-    handleThunkGetCoaches();
-    handleGetMembersInfo();
-    handleThunkGetLessons();
   };
 
   componentDidUpdate = async (prevProps) => {
@@ -124,6 +116,14 @@ class DayLessonContainer extends React.Component {
       this.setState({
         selectDay: params.day,
       });
+    }
+  };
+
+  getDetailLessonInfo = (data) => {
+    const { handleThunkGetLessonCoaches } = this.props;
+    const dataKey = [];
+    for (let i = 0; i < data.length; i++) {
+      handleThunkGetLessonCoaches(data[i].key);
     }
   };
 
@@ -399,16 +399,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleGetMembersInfo: () => dispatch(thunkGetMembers()),
-    handleThunkGetCoaches: () => dispatch(thunkGetCoaches()),
-    handleThunkGetLessons: () => dispatch(thunkGetLessons()),
-    handleThunkRegisterLesson: (payload) =>
-      dispatch(thunkRegisterLesson(payload)),
-    handleThunkRegisterLessonCoach: (payload, id) =>
-      dispatch(thunkRegisterLessonCoach(payload, id)),
-    handleThunkRegisterLessonMember: (payload, id) =>
-      dispatch(thunkRegisterLessonMember(payload, id)),
     handleThunkGetLessonDay: (payload) => dispatch(thunkGetLessonDay(payload)),
+    handleThunkGetLessonCoaches: (key) => dispatch(thunkGetLessonCoaches(key)),
+    handleThunkGetLessonMembers: (key) => dispatch(thunkGetLessonMembers(key)),
   };
 };
 

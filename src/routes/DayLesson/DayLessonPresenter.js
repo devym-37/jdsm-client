@@ -65,91 +65,23 @@ const DayLessonPresenter = ({
         </Breadcrumb.Item>
       </Breadcrumb>
 
-      {checkLesson.length === 0 ? (
-        <ButtonContainer>
-          <Button type="primary" onClick={handleShowModal}>
-            레슨 등록
-          </Button>
-        </ButtonContainer>
-      ) : checkLesson.length === 1 ? (
-        <ButtonContainer>
-          <Button
-            type="primary"
-            onClick={handleShowModal}
-            style={{ marginRight: 10 }}
-          >
-            레슨 수정
-          </Button>
-          <Button
-            danger
-            onClick={(e) => handleDeleteLesson(e)}
-            style={{ backgroundColor: "#f5222d", color: "#fff" }}
-          >
-            레슨 삭제
-          </Button>
-        </ButtonContainer>
-      ) : (
-        <ButtonContainer>
-          <Button
-            danger
-            onClick={(e) => handleDeleteLesson(e)}
-            style={{ backgroundColor: "#f5222d", color: "#fff" }}
-          >
-            레슨 삭제
-          </Button>
-        </ButtonContainer>
-      )}
-
-      <Modal
-        visible={modalVisible}
-        cancelText="취소"
-        okText={update ? "수정" : "등록"}
-        onOk={update ? handleUpdateLesson : handleSubmit}
-        onCancel={handleCancel}
-      >
-        {update ? (
-          <LessonForm
-            lessonInfo={lessonInfo}
-            members={members}
-            coaches={coaches}
-            days={days}
-            timePickerOpen={timePickerOpen}
-            handleChange={handleChange}
-            handleSelect={handleSelect}
-            handleTimeChange={handleTimeChange}
-            handlePickerOpen={handlePickerOpen}
-          />
-        ) : (
-          <LessonForm
-            lessonInfo={lessonInfo}
-            members={members}
-            coaches={coaches}
-            days={days}
-            timePickerOpen={timePickerOpen}
-            handleChange={handleChange}
-            handleSelect={handleSelect}
-            handleTimeChange={handleTimeChange}
-            handlePickerOpen={handlePickerOpen}
-          />
-        )}
-      </Modal>
-
       {!loading ? (
         <Loader />
       ) : lessons.length !== 0 ? (
         <Table
-          rowSelection={{
-            type: "checkbox",
-            selectedRowKeys: selectedRowKeys,
-            onChange: (selectedRowKeys, selectedRows) => {
-              handleCheckChange(selectedRowKeys, selectedRows);
-            },
-          }}
           dataSource={lessons}
           className={tableCSS}
           style={{ fontWeight: 600, width: "100%" }}
           pagination={{ pageSize: 8 }}
+          expandable={{
+            expandedRowRender: (record) => (
+              <p style={{ margin: 0 }}>
+                {("record.description", console.log("record", record))}
+              </p>
+            ),
+          }}
         >
+          {console.log("selectedRowKeys", lessons)}
           <Column title="레슨이름" dataIndex="name" key="name" />
           {/* <Column
             title="레슨코치"
@@ -177,7 +109,7 @@ const DayLessonPresenter = ({
             )}
             align="center"
           /> */}
-          <Column
+          {/* <Column
             title="요일"
             dataIndex="schedules"
             key="schedules"
@@ -189,7 +121,7 @@ const DayLessonPresenter = ({
               </>
             )}
             align="center"
-          />
+          /> */}
           <Column
             title="시작 시간"
             dataIndex="schedules"
