@@ -25,9 +25,9 @@ export const thunkGetLessonInfo = (payload) => {
 
 export const thunkRegisterLesson = (payload) => {
   return async (dispatch, getState) => {
-    const { data } = await api.lesson.registerLessonInfo(payload);
-    console.log("register response :>> ", data);
-    return data;
+    const response = await api.lesson.registerLessonInfo(payload);
+    console.log("response thunkRegisterLesson", response);
+    return response;
   };
 };
 
@@ -63,16 +63,20 @@ export const thunkGetLessonDay = (payload) => {
   };
 };
 
-export const thunkGetLessonCoaches = (id) => {
+export const thunkGetLessonCoaches = (key) => {
   return async (dispatch, getState) => {
-    const response = await api.lesson.getLessonCoaches(id);
-    console.log("response :>> ", response);
+    const response = await api.lesson.getLessonCoaches(key);
+    console.log("key", key);
+    console.log("response coach :>> ", response);
+    return response;
   };
 };
 
-export const thunkGetLessonMembers = (id) => {
+export const thunkGetLessonMembers = (key) => {
   return async (dispatch, getState) => {
-    const response = await api.lesson.getLessonMembers(id);
-    console.log("response :>> ", response);
+    const response = await api.lesson.getLessonMembers(key);
+
+    console.log("response member :>> ", response);
+    return response;
   };
 };
