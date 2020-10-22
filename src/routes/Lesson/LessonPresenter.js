@@ -196,7 +196,7 @@ const LessonPresenter = ({
             render={(schedules) => (
               <>
                 <Tag color="#70a1ff" key={"schedules.startTime"}>
-                  {schedules[0].startTime}
+                  {`${schedules[0].startTime.slice(0, 5)}`}
                 </Tag>
               </>
             )}
@@ -210,7 +210,7 @@ const LessonPresenter = ({
             render={(schedules) => (
               <>
                 <Tag color="#70a1ff" key={"schedules.endTime"}>
-                  {schedules[0].endTime}
+                  {schedules[0].endTime.slice(0, 5)}
                 </Tag>
               </>
             )}

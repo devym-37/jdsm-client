@@ -171,12 +171,12 @@ class LessonContainer extends React.Component {
       message.success("레슨 등록");
       const {
         code,
-        message: { id },
+        message: { key },
       } = await handleThunkRegisterLesson(lessonInfo);
 
       if (code === 200) {
-        handleThunkRegisterLessonCoach(lessonInfo.coachKeys, id);
-        handleThunkRegisterLessonMember(lessonInfo.memberKeys, id);
+        handleThunkRegisterLessonCoach(lessonInfo.coachKeys, key);
+        handleThunkRegisterLessonMember(lessonInfo.memberKeys, key);
         this.setState({
           modalVisible: false,
           lessonInfo: {
@@ -186,7 +186,7 @@ class LessonContainer extends React.Component {
             price: "",
             schedules: [
               {
-                dayOfWeed: "",
+                dayOfWeek: "",
                 startTime: "",
                 endTime: "",
               },
@@ -204,7 +204,7 @@ class LessonContainer extends React.Component {
             price: "",
             schedules: [
               {
-                dayOfWeed: "",
+                dayOfWeek: "",
                 startTime: "",
                 endTime: "",
               },
@@ -267,7 +267,7 @@ class LessonContainer extends React.Component {
           price: "",
           schedules: [
             {
-              dayOfWeed: "",
+              dayOfWeek: "",
               startTime: "",
               endTime: "",
             },
