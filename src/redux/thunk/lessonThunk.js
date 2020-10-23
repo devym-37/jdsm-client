@@ -16,10 +16,11 @@ export const thunkGetLessons = () => {
     }
   };
 };
-export const thunkGetLessonInfo = (payload) => {
+export const thunkGetLessonInfo = (key) => {
   return async (dispatch, getState) => {
-    const response = await api.lesson.getLessonInfo(payload);
-    console.log("response :>> ", response);
+    const response = await api.lesson.getLessonInfo(key);
+    console.log("response getLessonInfo :>> ", response);
+    return response;
   };
 };
 
