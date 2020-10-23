@@ -50,9 +50,9 @@ export const lesson = {
       .get(`/lesson/days/${params}`)
       .then((res) => res)
       .catch((error) => console.log("err", error)),
-  getLessonInfo: (id) =>
+  getLessonInfo: (key) =>
     api
-      .get(`/lesson/${id}`)
+      .get(`/lesson/${key}`)
       .then((res) => res)
       .catch((error) => console.log("err", error)),
   getLessonCoaches: (id) =>
