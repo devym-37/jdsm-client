@@ -12,6 +12,7 @@ import {
   thunkGetLessonDay,
   thunkGetLessonCoaches,
   thunkGetLessonMembers,
+  thunkGetLessonInfo,
 } from "../../redux/thunk/lessonThunk";
 
 import { message } from "antd";
@@ -20,19 +21,10 @@ class DayLessonContainer extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      dayLessonInfo: {
-        key: "",
-        coaches: [],
-        members: [],
-        paid: "",
-        attendance: "",
-      },
-      modalVisible: false,
       select: "",
       checkLesson: [],
       update: false,
       selectedRowKeys: [],
-      lessonListKey: [],
       dayOfEng: {
         월요일: "MONDAY",
         화요일: "TUESDAY",
@@ -53,19 +45,18 @@ class DayLessonContainer extends React.Component {
       },
       selectDay: "",
       lessons: [],
+      lessonList: [],
     };
   }
 
   componentDidMount = async () => {
     const {
-      handleThunkGetCoaches,
-      handleGetMembersInfo,
-      handleThunkGetLessons,
       handleThunkGetLessonDay,
       match: { params },
     } = this.props;
     const { dayOfEng } = this.state;
     const { getDetailLessonInfo } = this;
+
     this.setState({
       selectDay: params.day,
     });
@@ -76,7 +67,9 @@ class DayLessonContainer extends React.Component {
       const {
         data: { data },
       } = response;
+
       getDetailLessonInfo(data);
+
       this.setState({
         lessons: data,
         loading: true,
@@ -95,6 +88,7 @@ class DayLessonContainer extends React.Component {
       handleThunkGetLessonDay,
     } = this.props;
     const { dayOfEng } = this.state;
+    const { getDetailLessonInfo } = this;
 
     if (prevProps.match.params.day !== params.day) {
       const response = await handleThunkGetLessonDay(dayOfEng[params.day]);
@@ -103,6 +97,9 @@ class DayLessonContainer extends React.Component {
         const {
           data: { data },
         } = response;
+
+        getDetailLessonInfo(data);
+
         this.setState({
           lessons: data,
           loading: true,
@@ -119,55 +116,30 @@ class DayLessonContainer extends React.Component {
     }
   };
 
-  getDetailLessonInfo = (data) => {
-    const { handleThunkGetLessonCoaches } = this.props;
-    const dataKey = [];
-    for (let i = 0; i < data.length; i++) {
-      handleThunkGetLessonCoaches(data[i].key);
+  getDetailLessonInfo = async (payload) => {
+    const { handleThunkGetLessonInfo } = this.props;
+
+    const lesson = payload;
+    const dataList = [];
+
+    for (let i = 0; i < lesson.length; i++) {
+      let {
+        data: { data },
+      } = await handleThunkGetLessonInfo(lesson[i].key);
+      dataList.push(data.members);
     }
-  };
-
-  handleShowModal = () => {
     this.setState({
-      modalVisible: true,
+      lessonList: dataList,
     });
   };
 
-  handleCancel = () => {
-    this.setState({
-      modalVisible: false,
-    });
-  };
-
-  handleChange = (e) => {
-    const { lessonInfo } = this.state;
+  handleChange = (e, key) => {
     const value = e.target.value;
     const inputName = e.target.name;
-    this.setState({
-      lessonInfo: {
-        ...lessonInfo,
-        [inputName]: value,
-      },
-    });
-  };
-
-  handleTimeChange = (time, timeString) => {
-    const { lessonInfo } = this.state;
-
-    const startTime = timeString[0];
-    const endTime = timeString[1];
-    this.setState({
-      lessonInfo: {
-        ...lessonInfo,
-        schedules: [
-          {
-            ...lessonInfo.schedules[0],
-            startTime: startTime,
-            endTime: endTime,
-          },
-        ],
-      },
-    });
+    console.log("e", e);
+    console.log("value", value);
+    console.log("inputName", inputName);
+    console.log("key", key);
   };
 
   handleSelect = (name, value) => {
@@ -195,194 +167,20 @@ class DayLessonContainer extends React.Component {
     }
   };
 
-  handleSubmit = async () => {
-    const { lessonInfo } = this.state;
-    const {
-      lessons,
-      handleThunkRegisterLesson,
-      handleThunkRegisterLessonCoach,
-      handleThunkRegisterLessonMember,
-    } = this.props;
-
-    let count = 0;
-
-    for (const key in lessonInfo) {
-      if (lessonInfo[key] === "") {
-        message.error("레슨 정보를 입력해주세요");
-        break;
-      } else if (
-        typeof lessonInfo[key] === "object" &&
-        lessonInfo[key].length === 0
-      ) {
-        message.error("레슨 정보를 입력해주세요");
-        break;
-      } else {
-        count = count + 1;
-      }
-    }
-
-    if (count === 5) {
-      message.success("레슨 등록");
-      const {
-        code,
-        message: { id },
-      } = await handleThunkRegisterLesson(lessonInfo);
-
-      if (code === 200) {
-        handleThunkRegisterLessonCoach(lessonInfo.coachKeys, id);
-        handleThunkRegisterLessonMember(lessonInfo.memberKeys, id);
-        this.setState({
-          modalVisible: false,
-          lessonInfo: {
-            name: "",
-            coachKeys: [],
-            memberKeys: [],
-            price: "",
-            schedules: [
-              {
-                dayOfWeed: "",
-                startTime: "",
-                endTime: "",
-              },
-            ],
-          },
-        });
-      } else {
-        message.error("레슨 등록 실패");
-        this.setState({
-          modalVisible: false,
-          lessonInfo: {
-            name: "",
-            coachKeys: [],
-            memberKeys: [],
-            price: "",
-            schedules: [
-              {
-                dayOfWeed: "",
-                startTime: "",
-                endTime: "",
-              },
-            ],
-          },
-        });
-      }
-    }
-  };
-
-  handleCheckChange = (selectedRowKeys, selectedRows) => {
-    if (selectedRows.length === 1) {
-      this.setState({
-        checkLesson: [...selectedRows],
-        update: true,
-        lessonInfo: selectedRows[0],
-        selectedRowKeys: [...selectedRowKeys],
-      });
-    } else {
-      this.setState({
-        checkLesson: [...selectedRows],
-        selectedRowKeys: [...selectedRowKeys],
-      });
-    }
-  };
-
-  handleDeleteLesson = () => {
-    const { checkLesson } = this.state;
-    const { handleDeleteLesson } = this.props;
-    this.setState({
-      checkLesson: [],
-    });
-    handleDeleteLesson(checkLesson);
-  };
-
-  handleUpdateLesson = () => {
-    const { lessonInfo } = this.state;
-    const { handleUpdateLesson } = this.props;
-
-    let count = 0;
-
-    for (const key in lessonInfo) {
-      if (lessonInfo[key] === "" && key !== "lesson") {
-        message.error("레슨 정보를 입력해주세요");
-        break;
-      } else {
-        count = count + 1;
-      }
-    }
-
-    if (count >= 4) {
-      handleUpdateLesson(lessonInfo);
-      message.success("레슨 수정");
-      this.setState({
-        modalVisible: false,
-        lessonInfo: {
-          name: "",
-          coachKeys: [],
-          memberKeys: [],
-          price: "",
-          schedules: [
-            {
-              dayOfWeed: "",
-              startTime: "",
-              endTime: "",
-            },
-          ],
-        },
-        checkLesson: [],
-        selectedRowKeys: [],
-      });
-    }
-  };
-
   render() {
-    const {
-      lessonInfo,
-      loading,
-      select,
-      modalVisible,
-      checkLesson,
-      update,
-      selectedRowKeys,
-      dayOfKor,
-      selectDay,
-      lessons,
-    } = this.state;
-    const { members, coaches, days } = this.props;
-    const {
-      handleChange,
-      handleSelect,
-      handleSubmit,
-      handleTimeChange,
-      handleShowModal,
-      handleCancel,
-      handleCheckChange,
-      handleDeleteLesson,
-      handleUpdateLesson,
-    } = this;
+    const { loading, dayOfKor, selectDay, lessons, lessonList } = this.state;
+
+    const { handleChange, handleSelect } = this;
     console.log("test ", this.state);
     return (
       <DayLessonPresenter
-        lessonInfo={lessonInfo}
         selectDay={selectDay}
         lessons={lessons}
-        members={members}
-        coaches={coaches}
-        days={days}
+        lessonList={lessonList}
         loading={loading}
-        select={select}
-        update={update}
         dayOfKor={dayOfKor}
-        selectedRowKeys={selectedRowKeys}
-        checkLesson={checkLesson}
-        modalVisible={modalVisible}
         handleChange={handleChange}
         handleSelect={handleSelect}
-        handleSubmit={handleSubmit}
-        handleShowModal={handleShowModal}
-        handleCancel={handleCancel}
-        handleCheckChange={handleCheckChange}
-        handleTimeChange={handleTimeChange}
-        handleDeleteLesson={handleDeleteLesson}
-        handleUpdateLesson={handleUpdateLesson}
       />
     );
   }
@@ -402,6 +200,7 @@ const mapDispatchToProps = (dispatch) => {
     handleThunkGetLessonDay: (payload) => dispatch(thunkGetLessonDay(payload)),
     handleThunkGetLessonCoaches: (key) => dispatch(thunkGetLessonCoaches(key)),
     handleThunkGetLessonMembers: (key) => dispatch(thunkGetLessonMembers(key)),
+    handleThunkGetLessonInfo: (key) => dispatch(thunkGetLessonInfo(key)),
   };
 };
 
