@@ -71,7 +71,6 @@ class DayLessonContainer extends React.Component {
       getDetailLessonInfo(data);
 
       this.setState({
-        lessons: data,
         loading: true,
       });
     } else if (response === undefined) {
@@ -101,7 +100,6 @@ class DayLessonContainer extends React.Component {
         getDetailLessonInfo(data);
 
         this.setState({
-          lessons: data,
           loading: true,
         });
       } else if (response === undefined) {
@@ -121,14 +119,18 @@ class DayLessonContainer extends React.Component {
 
     const lesson = payload;
     const dataList = [];
+    const dataInfo = [];
 
     for (let i = 0; i < lesson.length; i++) {
       let {
         data: { data },
       } = await handleThunkGetLessonInfo(lesson[i].key);
       dataList.push(data.members);
+      dataInfo.push(data);
     }
+
     this.setState({
+      lessons: dataInfo,
       lessonList: dataList,
     });
   };
