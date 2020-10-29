@@ -27,7 +27,7 @@ const Container = styled(Content)`
 const ICard = styled(Card)`
   border: 1px solid #f0f0f0;
   box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
-    0 15px 40px rgba(166, 173, 201, 0.2);
+    0 15px 100px rgba(166, 173, 201, 0.2);
 `;
 
 const Div = styled.div`
@@ -105,6 +105,10 @@ const DashboardPresenter = ({ lessons, members, coaches }) => {
   const summaryCards = summaries.map((summary) => {
     return <Col span={6}>
       <Card
+        style={{
+          borderRadius: 15,
+          boxShadow: '0 5px 10px rgba(154, 160, 185, 0.05), 0 15px 100px rgba(166, 173, 201, 0.2)'
+        }}
         headStyle={{
           minHeight: 60,
           fontWeight: 'bold'
