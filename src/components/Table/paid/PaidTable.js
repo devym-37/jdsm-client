@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, Button, Space } from "antd";
 import Card from './../../Card/Card';
+import dataSource from './PaidSample.json'
 
 const columns = [{
   key: 'name',
@@ -33,36 +34,45 @@ class PaidTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      disabled: true,
       selectedRowKeys: []
     };
+    this.handleCheckChange = this.handleCheckChange.bind();
   }
 
-  han
+
+  handleCheckChange = (selectedRowKeys, selectedRows) => {
+    console.log("========================");
+    console.log("SelectedRowKeys : ", selectedRowKeys);
+    console.log("SelectedRow : ", selectedRows);
+
+    this.setDisabled(selectedRowKeys.length);
+    this.setState({
+      selectedRowKeys: [...selectedRowKeys]
+    });
+  };
+
+  setDisabled = (length) => {
+    length === 0 ? this.setState({ disabled: true }) : this.setState({ disabled: false });
+  }
 
   render() {
-    const { selectedRowKeys } = this.state;
-    const dataSource = [{
-      key: 1,
-      name: 'JACK',
-      dayOfWeek: '월요일',
-      lesson: '백문초 91또래',
-      date: '20년 5월',
-      pay: '70000',
-    }];
+    const { disabled, selectedRowKeys } = this.state;
+
     return <Card
       title={"미납자 명단"}
       body={<>
         <Space style={styles.buttonContainer}>
-          <Button>회비 제출</Button>
+          <Button disabled={disabled}>회비 제출</Button>
         </Space>
 
         <Table
           rowSelection={{
             type: "checkbox",
             selectedRowKeys: selectedRowKeys,
-            // onChange: (selectedRowKeys, selectedRows) => {
-            //   handleCheckChange(selectedRowKeys, selectedRows);
-            // },
+            onChange: (selectedRowKeys, selectedRows) => {
+              this.handleCheckChange(selectedRowKeys, selectedRows);
+            },
           }}
           bordered={true}
           columns={columns}
