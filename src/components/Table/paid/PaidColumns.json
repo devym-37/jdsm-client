@@ -1,0 +1,28 @@
+[
+    {
+        "key": "name",
+        "title": "이름",
+        "dataIndex": "name",
+        "fixed": "left"
+    },
+    {
+        "key": "dayOfWeek",
+        "title": "레슨 요일",
+        "dataIndex": "dayOfWeek"
+    },
+    {
+        "key": "lesson",
+        "title": "레슨 이름",
+        "dataIndex": "lesson"
+    },
+    {
+        "key": "date",
+        "title": "미납 날짜",
+        "dataIndex": "date"
+    },
+    {
+        "key": "pay",
+        "title": "미납 금액",
+        "dataIndex": "pay"
+    }
+]

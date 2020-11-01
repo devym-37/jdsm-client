@@ -48,6 +48,7 @@ class SideBar extends React.Component {
       collapsed: false,
       mode: "inline",
       theme: "light",
+      selected: 'dashboard'
     };
   }
 
@@ -87,12 +88,11 @@ class SideBar extends React.Component {
 
   render() {
     const { days } = this.props;
-    const { collapsed, theme, mode } = this.state;
+    const { collapsed, theme, mode, selected } = this.state;
     const { onCollapse, renderMenus, renderCollapsedLogo, rednerLogo } = this;
 
     return (
       <Sider
-        classNAme={SideBar}
         style={styles.sider}
         collapsible
         collapsed={collapsed}
@@ -101,7 +101,11 @@ class SideBar extends React.Component {
       >
         {collapsed ? renderCollapsedLogo() : rednerLogo()}
 
-        <Menu theme={theme} mode={mode}>
+        <Menu 
+          className={SideBar}
+          defaultSelectedKeys={[selected]}
+          theme={theme} 
+          mode={mode}>
           {renderMenus()}
           <SubMenu key="lessonDay" icon={<FileOutlined />} title="레슨 일정">
             {days.map((day, index) => (
