@@ -5,7 +5,10 @@ const { Footer } = Layout;
 
 const Footers = () => (
   <>
-    <Footer style={{ textAlign: "center" }}>©2020 Created by llooster</Footer>
+    <Footer style={{
+      marginTop: 'auto',
+      textAlign: "center"
+    }}>©2020 Created by llooster</Footer>
   </>
 );
 

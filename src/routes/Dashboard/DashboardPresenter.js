@@ -4,15 +4,12 @@ import Helmet from "react-helmet";
 
 import {
   Layout,
-  Breadcrumb,
   Input,
   Select,
-  Button,
   Card,
   Col,
   Row,
 } from "antd";
-
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -21,6 +18,7 @@ const Container = styled(Content)`
   display: block;
   justify-content: center;
   padding: 30px;
+  margin-top: '-6rem';
   margin-bottom: 150px;
 `;
 
@@ -63,8 +61,6 @@ const Title = styled.p`
   justify-content: flex-end;
   font-weight: 600;
 `;
-
-const IButton = styled(Button)``;
 
 Number.prototype.format = function(){
   if(this==0) {
@@ -110,7 +106,8 @@ const DashboardPresenter = ({ lessons, members, coaches }) => {
           boxShadow: '0 5px 10px rgba(154, 160, 185, 0.05), 0 15px 100px rgba(166, 173, 201, 0.2)'
         }}
         headStyle={{
-          minHeight: 60,
+          backgroundColor: 'rgba(31, 45, 65, 0.03)',
+          minHeight: '3.5rem',
           fontWeight: 'bold'
         }}
         bodyStyle={{

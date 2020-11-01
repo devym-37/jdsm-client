@@ -31,13 +31,17 @@ class SideBar extends React.Component {
     const { onCollapse } = this;
     console.log("collapsed", collapsed);
     return (
-      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+      <Sider
+        collapsible collapsed={collapsed}
+        onCollapse={onCollapse}
+        theme={'light'}
+      >
         {collapsed ? (
           <div style={{ marginTop: 20, height: 70, marginBottom: 20 }}></div>
         ) : (
           <div style={{ marginTop: 20, marginBottom: 20 }}>
             <img
-              src={require("../assets/Logo.png")}
+              src={require("../../assets/Logo.png")}
               alt="Logo"
               height="70"
               style={{ height: 70, width: 300, paddingRight: 100 }}
@@ -45,7 +49,7 @@ class SideBar extends React.Component {
           </div>
         )}
 
-        <Menu theme="dark" mode="inline">
+        <Menu theme="light" mode="inline">
           <Menu.Item key="dashboard" icon={<HomeOutlined />}>
             <Link to="/dashboard">DashBoard</Link>
           </Menu.Item>
