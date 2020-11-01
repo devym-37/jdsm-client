@@ -3,34 +3,8 @@ import { Table, Button, Space } from "antd";
 import Moment from 'moment';
 
 import Card from './../../Card/Card';
+import Columns from './PaidColumns.json';
 import dataSource from './PaidSample.json'
-
-const columns = [{
-  key: 'name',
-  title: '이름',
-  dataIndex: 'name',
-  fixed: 'left',
-},
-{
-  key: 'dayOfWeek',
-  title: '레슨 요일',
-  dataIndex: 'dayOfWeek',
-},
-{
-  key: 'age',
-  title: '레슨 이름',
-  dataIndex: 'lesson',
-},
-{
-  key: 'date',
-  title: '미납 날짜',
-  dataIndex: 'date',
-},
-{
-  key: 'pay',
-  title: '미납 금액',
-  dataIndex: 'pay'
-}]
 
 class PaidTable extends React.Component {
   constructor(props) {
@@ -45,10 +19,6 @@ class PaidTable extends React.Component {
   }
 
   setCheckboxes = (selectedRowKeys, selectedRows) => {
-    console.log("========================");
-    console.log("SelectedRowKeys : ", selectedRowKeys);
-    console.log("SelectedRow : ", selectedRows);
-
     this.setDisabled(selectedRowKeys.length);
     this.setState({
       selectedRows: [...selectedRows],
@@ -62,9 +32,6 @@ class PaidTable extends React.Component {
 
   sendPaid = () => {
     const { selectedRows } = this.state;
-    const today = new Date();
-
-    console.log(selectedRows);
     const payload = selectedRows.map(row => {
       return {
         "lessonKey": row.lessonKey,
@@ -102,7 +69,7 @@ class PaidTable extends React.Component {
             },
           }}
           bordered={true}
-          columns={columns}
+          columns={Columns}
           dataSource={dataSource} />
       </>}
     />
