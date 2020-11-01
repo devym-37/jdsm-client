@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Image } from "antd";
+import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -9,6 +9,7 @@ import {
   UserOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
+import "./../SideBar/SideBar.css";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -45,6 +46,7 @@ class SideBar extends React.Component {
     super(props);
     this.state = {
       collapsed: false,
+      mode: "inline",
       theme: "light",
     };
   }
@@ -85,21 +87,22 @@ class SideBar extends React.Component {
 
   render() {
     const { days } = this.props;
-    const { collapsed, theme } = this.state;
-    const { onCollapse } = this;
+    const { collapsed, theme, mode } = this.state;
+    const { onCollapse, renderMenus, renderCollapsedLogo, rednerLogo } = this;
 
     return (
       <Sider
+        classNAme={SideBar}
+        style={styles.sider}
         collapsible
         collapsed={collapsed}
         onCollapse={onCollapse}
-        style={styles.sidebar}
         theme={theme}
       >
-        {collapsed ? this.renderCollapsedLogo() : this.rednerLogo()}
+        {collapsed ? renderCollapsedLogo() : rednerLogo()}
 
-        <Menu theme={theme} mode="inline">
-          {this.renderMenus()}
+        <Menu theme={theme} mode={mode}>
+          {renderMenus()}
           <SubMenu key="lessonDay" icon={<FileOutlined />} title="레슨 일정">
             {days.map((day, index) => (
               <Menu.Item key={index}>
@@ -114,8 +117,8 @@ class SideBar extends React.Component {
 }
 
 const styles = {
-  sidebar: {
-    boxShadow: "0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15) !important",
+  sider: {
+    boxShadow: "0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15)",
   },
   logo: {
     marginTop: 20,

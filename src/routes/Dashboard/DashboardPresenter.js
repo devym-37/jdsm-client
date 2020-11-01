@@ -2,14 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
-import {
-  Layout,
-  Input,
-  Select,
-  Card,
-  Col,
-  Row,
-} from "antd";
+import { Layout, Input, Select, Card, Col, Row } from "antd";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -18,7 +11,7 @@ const Container = styled(Content)`
   display: block;
   justify-content: center;
   padding: 30px;
-  margin-top: '-6rem';
+  margin-top: "-6rem";
   margin-bottom: 150px;
 `;
 
@@ -62,76 +55,83 @@ const Title = styled.p`
   font-weight: 600;
 `;
 
-Number.prototype.format = function(){
-  if(this==0) {
+Number.prototype.format = function () {
+  if (this == 0) {
     return 0;
   }
 
   var reg = /(^[+-]?\d+)(\d{3})/;
-  var n = (this + '');
+  var n = this + "";
 
-  while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+  while (reg.test(n)) n = n.replace(reg, "$1" + "," + "$2");
 
   return n;
 };
 
-String.prototype.format = function(){
+String.prototype.format = function () {
   var num = parseFloat(this);
-  if( isNaN(num) ) return "0";
+  if (isNaN(num)) return "0";
 
   return num.format();
 };
 
 const DashboardPresenter = ({ lessons, members, coaches }) => {
-  
-  const summaries = [{
-    'title': 'Lessons',
-    'data': `${lessons.length} 레슨`
-  }, {
-    'title': 'Members',
-    'data': `${members.length} 명`
-  }, {
-    'title': '미납자',
-    'data': `${lessons.length} 명`
-  }, {
-    'title': '미납비',
-    'data': `${'100000000'.format()} 원`
-  }];
+  const summaries = [
+    {
+      title: "레슨수",
+      data: `${lessons.length}`,
+    },
+    {
+      title: "회원수",
+      data: `${members.length}`,
+    },
+    {
+      title: "미납자",
+      data: `${lessons.length}`,
+    },
+    {
+      title: "미납비",
+      data: `${"100000000".format()}`,
+    },
+  ];
 
   const summaryCards = summaries.map((summary) => {
-    return <Col span={6}>
-      <Card
-        style={{
-          borderRadius: 15,
-          boxShadow: '0 5px 10px rgba(154, 160, 185, 0.05), 0 15px 100px rgba(166, 173, 201, 0.2)'
-        }}
-        headStyle={{
-          backgroundColor: 'rgba(31, 45, 65, 0.03)',
-          minHeight: '3.5rem',
-          fontWeight: 'bold'
-        }}
-        bodyStyle={{
-          minHeight: 80,
-          fontWeight: 'bold',
-          textAlign: 'right'
-        }}
-        title={summary.title}>
+    return (
+      <Col span={6}>
+        <Card
+          style={{
+            borderRadius: 15,
+            boxShadow:
+              "0 5px 10px rgba(154, 160, 185, 0.05), 0 15px 100px rgba(166, 173, 201, 0.2)",
+          }}
+          headStyle={{
+            backgroundColor: "rgba(31, 45, 65, 0.03)",
+            minHeight: "3.5rem",
+            fontWeight: "bold",
+          }}
+          bodyStyle={{
+            minHeight: 80,
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+            textAlign: "right",
+          }}
+          title={summary.title}
+        >
           {summary.data}
-      </Card>
-    </Col>
-  })
+        </Card>
+      </Col>
+    );
+  });
 
   return (
     <>
       <Helmet>
         <title>JD Football Academy 현황</title>
       </Helmet>
-  
-      <Container>  
+
+      <Container>
         <Div>
-          <Row gutter={16}>
-            { summaryCards }
-          </Row>
+          <Row gutter={16}>{summaryCards}</Row>
         </Div>
         <Div className="site-card-wrapper">
           <Row gutter={16}>
@@ -154,6 +154,6 @@ const DashboardPresenter = ({ lessons, members, coaches }) => {
       </Container>
     </>
   );
-}
+};
 
 export default DashboardPresenter;
