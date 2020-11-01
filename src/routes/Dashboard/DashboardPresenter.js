@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
-import { Layout, Input, Select, Card, Col, Row } from "antd";
+import { Layout, Card as AntdCard, Col, Row } from "antd";
+import PaidTable from './../../components/Table/paid/PaidTable';
+import Card from './../../components/Card/Card';
 
 const { Content } = Layout;
-const { Option } = Select;
 
 const Container = styled(Content)`
   display: block;
@@ -15,7 +16,7 @@ const Container = styled(Content)`
   margin-bottom: 150px;
 `;
 
-const ICard = styled(Card)`
+const ICard = styled(AntdCard)`
   border: 1px solid #f0f0f0;
   box-shadow: 0 5px 10px rgba(154, 160, 185, 0.05),
     0 15px 100px rgba(166, 173, 201, 0.2);
@@ -72,30 +73,12 @@ const DashboardPresenter = ({ lessons, members, coaches }) => {
     },
   ];
 
-  const summaryCards = summaries.map((summary) => {
+  const renderCards = summaries.map((summary) => {
     return (
       <Col span={6}>
         <Card
-          style={{
-            borderRadius: 15,
-            boxShadow:
-              "0 5px 10px rgba(154, 160, 185, 0.05), 0 15px 100px rgba(166, 173, 201, 0.2)",
-          }}
-          headStyle={{
-            backgroundColor: "rgba(31, 45, 65, 0.03)",
-            minHeight: "3.5rem",
-            fontWeight: "bold",
-          }}
-          bodyStyle={{
-            minHeight: 80,
-            fontWeight: "bold",
-            fontSize: "1.5rem",
-            textAlign: "right",
-          }}
           title={summary.title}
-        >
-          {summary.data}
-        </Card>
+          body={<span>{summary.data}</span>} />
       </Col>
     );
   });
@@ -108,7 +91,10 @@ const DashboardPresenter = ({ lessons, members, coaches }) => {
 
       <Container>
         <Div>
-          <Row gutter={16}>{summaryCards}</Row>
+          <Row gutter={16}>{renderCards}</Row>
+        </Div>
+        <Div>
+          <PaidTable />
         </Div>
         <Div className="site-card-wrapper">
           <Row gutter={16}>

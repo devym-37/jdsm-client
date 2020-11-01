@@ -1,3 +1,9 @@
 .ant-menu-item-selected {
-  color: "#0061f2";
+  color: #0061f2;
+  font-weight: 800;
+  background-color: #fff !important;
+}
+
+.ant-menu-item::after {
+  border: none !important;
 }
