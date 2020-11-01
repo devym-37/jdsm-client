@@ -13,6 +13,33 @@ import {
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
+const menus = [
+  {
+    key: "dashboard",
+    icon: <HomeOutlined />,
+    link: "/dashboard",
+    title: "대시보드",
+  },
+  {
+    key: "userList",
+    icon: <TeamOutlined />,
+    link: "/members",
+    title: "회원관리",
+  },
+  {
+    key: "coachList",
+    icon: <UserOutlined />,
+    link: "/coaches",
+    title: "코치관리",
+  },
+  {
+    key: "lessonList",
+    icon: <DesktopOutlined />,
+    link: "/lessons",
+    title: "레슨관리",
+  },
+];
+
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
@@ -46,6 +73,16 @@ class SideBar extends React.Component {
     );
   };
 
+  renderMenus = () => {
+    return menus.map((menu) => {
+      return (
+        <Menu.Item key={menu.key} icon={menu.icon}>
+          <Link to={menu.link}>{menu.title}</Link>
+        </Menu.Item>
+      );
+    });
+  };
+
   render() {
     const { days } = this.props;
     const { collapsed, theme } = this.state;
@@ -62,9 +99,7 @@ class SideBar extends React.Component {
         {collapsed ? this.renderCollapsedLogo() : this.rednerLogo()}
 
         <Menu theme={theme} mode="inline">
-          <Menu.Item key="dashboard" icon={<HomeOutlined />}>
-            <Link to="/dashboard">DashBoard</Link>
-          </Menu.Item>
+          {this.renderMenus()}
           <SubMenu key="lessonDay" icon={<FileOutlined />} title="레슨 일정">
             {days.map((day, index) => (
               <Menu.Item key={index}>
@@ -72,15 +107,6 @@ class SideBar extends React.Component {
               </Menu.Item>
             ))}
           </SubMenu>
-          <Menu.Item key="lessonList" icon={<DesktopOutlined />}>
-            <Link to="/lessons">레슨</Link>
-          </Menu.Item>
-          <Menu.Item key="userList" icon={<TeamOutlined />}>
-            <Link to="/members">회원</Link>
-          </Menu.Item>
-          <Menu.Item key="coachList" icon={<UserOutlined />}>
-            <Link to="/coaches">코치</Link>
-          </Menu.Item>
         </Menu>
       </Sider>
     );
