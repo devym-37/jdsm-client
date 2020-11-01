@@ -18,6 +18,7 @@ class SideBar extends React.Component {
     super(props);
     this.state = {
       collapsed: false,
+      theme: "light",
     };
   }
 
@@ -25,31 +26,42 @@ class SideBar extends React.Component {
     this.setState({ collapsed });
   };
 
+  rednerLogo = () => {
+    return (
+      <div style={styles.logo}>
+        <a href="/" style={styles.title}>
+          JD Academy
+        </a>
+      </div>
+    );
+  };
+
+  renderCollapsedLogo = () => {
+    return (
+      <div style={styles.collapsedLogo}>
+        <a href="/" style={styles.collapsedTitle}>
+          JD
+        </a>
+      </div>
+    );
+  };
+
   render() {
     const { days } = this.props;
-    const { collapsed } = this.state;
+    const { collapsed, theme } = this.state;
     const { onCollapse } = this;
-    console.log("collapsed", collapsed);
+
     return (
       <Sider
-        collapsible collapsed={collapsed}
+        collapsible
+        collapsed={collapsed}
         onCollapse={onCollapse}
-        theme={'light'}
+        style={styles.sidebar}
+        theme={theme}
       >
-        {collapsed ? (
-          <div style={{ marginTop: 20, height: 70, marginBottom: 20 }}></div>
-        ) : (
-          <div style={{ marginTop: 20, marginBottom: 20 }}>
-            <img
-              src={require("../../assets/Logo.png")}
-              alt="Logo"
-              height="70"
-              style={{ height: 70, width: 300, paddingRight: 100 }}
-            />
-          </div>
-        )}
+        {collapsed ? this.renderCollapsedLogo() : this.rednerLogo()}
 
-        <Menu theme="light" mode="inline">
+        <Menu theme={theme} mode="inline">
           <Menu.Item key="dashboard" icon={<HomeOutlined />}>
             <Link to="/dashboard">DashBoard</Link>
           </Menu.Item>
@@ -75,6 +87,32 @@ class SideBar extends React.Component {
   }
 }
 
+const styles = {
+  sidebar: {
+    boxShadow: "0 0.15rem 1.75rem 0 rgba(31, 45, 65, 0.15) !important",
+  },
+  logo: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  collapsedLogo: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: "1rem",
+    fontWeight: "bold",
+    color: "#323f52",
+    padding: "24px",
+  },
+  collapsedTitle: {
+    fontSize: "1rem",
+    fontWeight: "bold",
+    color: "#323f52",
+    display: "flex",
+    justifyContent: "center",
+  },
+};
 const mapStateToProps = (state) => {
   return {
     days: state.lessonReducer.days,
