@@ -1,5 +1,7 @@
 import React from "react";
 import { Table, Button, Space } from "antd";
+import Moment from 'moment';
+
 import Card from './../../Card/Card';
 import dataSource from './PaidSample.json'
 
@@ -35,25 +37,45 @@ class PaidTable extends React.Component {
     super(props);
     this.state = {
       disabled: true,
-      selectedRowKeys: []
+      selectedRowKeys: [],
+      selectedRows: []
     };
-    this.handleCheckChange = this.handleCheckChange.bind();
+    this.setCheckboxes = this.setCheckboxes.bind();
+    this.sendPaid = this.sendPaid.bind();
   }
 
-
-  handleCheckChange = (selectedRowKeys, selectedRows) => {
+  setCheckboxes = (selectedRowKeys, selectedRows) => {
     console.log("========================");
     console.log("SelectedRowKeys : ", selectedRowKeys);
     console.log("SelectedRow : ", selectedRows);
 
     this.setDisabled(selectedRowKeys.length);
     this.setState({
+      selectedRows: [...selectedRows],
       selectedRowKeys: [...selectedRowKeys]
     });
   };
 
   setDisabled = (length) => {
     length === 0 ? this.setState({ disabled: true }) : this.setState({ disabled: false });
+  }
+
+  sendPaid = () => {
+    const { selectedRows } = this.state;
+    const today = new Date();
+
+    console.log(selectedRows);
+    const payload = selectedRows.map(row => {
+      return {
+        "lessonKey": row.lessonKey,
+        "paidDate": Moment(new Date()).format('YYYY-MM-DD'),
+        "states": {
+          "memberKey": row.memberKey,
+          "state": "PAID"
+        }
+      }
+    })
+    console.log("Payload : ", payload);
   }
 
   render() {
@@ -63,7 +85,12 @@ class PaidTable extends React.Component {
       title={"미납자 명단"}
       body={<>
         <Space style={styles.buttonContainer}>
-          <Button disabled={disabled}>회비 제출</Button>
+          <Button
+            disabled={disabled}
+            onClick={() => this.sendPaid()}
+          >
+            회비 제출
+          </Button>
         </Space>
 
         <Table
@@ -71,7 +98,7 @@ class PaidTable extends React.Component {
             type: "checkbox",
             selectedRowKeys: selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
-              this.handleCheckChange(selectedRowKeys, selectedRows);
+              this.setCheckboxes(selectedRowKeys, selectedRows);
             },
           }}
           bordered={true}
