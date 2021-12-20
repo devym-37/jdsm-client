@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/antd": "^1.0.0",
     "antd": "^4.5.4",
-    "axios": "^0.20.0",
+    "axios": "^0.21.2",
     "cross-env": "^7.0.2",
     "emotion": "^10.0.27",
     "moment": "^2.29.1",
